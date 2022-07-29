@@ -18,7 +18,7 @@ const db = mysql.createPool({
     database: 'queup',
     port:3306,
     ssl: {
-        ca: fs.readFileSync("C:/Users/hdlib/Documents/sql/DigiCertGlobalRootCA.crt.pem")
+        ca: fs.readFileSync("./DigiCertGlobalRootCA.crt.pem")
     }
 });
 

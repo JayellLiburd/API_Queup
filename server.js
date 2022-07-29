@@ -108,6 +108,6 @@ app.post('/auth/:id/profile', (req, res) => {
 });
 
 
-app.listen( port, () => {
+app.listen(port, () => {
     console.log('Running on port' + port )
 });

@@ -2,11 +2,12 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
+  "homepage": "http://JayellLiburd.github.io/QueupExprsssJS/",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node server",
-    "start": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
