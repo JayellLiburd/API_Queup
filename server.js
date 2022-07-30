@@ -4,7 +4,7 @@ const mysql = require('mysql')
 const cors = require('cors');
 var fs = require('fs'); 
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 4000
 
 const { verify } = require('jsonwebtoken')
 
@@ -19,9 +19,6 @@ const db = mysql.createPool({
     password: 'Ishmael01',
     database: 'queup',
     port:3306,
-    ssl: {
-        ca: fs.readFileSync("./DigiCertGlobalRootCA.crt.pem")
-    }
 });
 
 //middleware

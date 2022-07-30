@@ -17,9 +17,7 @@ const db = mysql.createPool({
     password: 'Ishmael01',
     database: 'queup',
     port:3306,
-    ssl: {
-        ca: fs.readFileSync("./DigiCertGlobalRootCA.crt.pem")
-    }
+ 
 });
 
 app.use(cors({
