@@ -35,10 +35,11 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 //Login with form
 router.post('/', (req, res) => {
-    console.log('1')
     
     const username = req.body.username
     const password = req.body.password
+
+    console.log(username, password)
 
     finduser = "select * from users where username = ?;"
 
