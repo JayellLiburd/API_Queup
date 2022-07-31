@@ -77,8 +77,9 @@ router.get('/:id/login', (req, res) => {
                                 const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, 'password')
 
                                 res
-                                    .cookie('ss', AuthToken, {sameSite: 'lax', httpOnly: true})
-                                    .cookie('rs', VToken, {sameSite: 'lax'})
+                                    .cookie('ss', AuthToken, {sameSite: "none", secure: true, domain: "https://jayellliburd.github.io/queup/", httpOnly: true},
+)
+                                    .cookie('rs', VToken, {sameSite: "none", secure: true, domain: "https://jayellliburd.github.io/queup/"})
                                     .send(tokenpref)
 
                                     
