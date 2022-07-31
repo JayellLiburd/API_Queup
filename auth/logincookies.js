@@ -66,7 +66,7 @@ router.get('/:id/login', (req, res) => {
 
                         console.log(response)
                         //Create if dont have
-                        if (response.length <= 0) {db.query(constpref, user_id, (err, results) => {
+                        if (response[0] <= 0) {db.query(constpref, user_id, (err, results) => {
 
                             db.query(findpref, user_id, (err, response) => {
                                 

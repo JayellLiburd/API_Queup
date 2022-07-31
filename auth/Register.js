@@ -28,8 +28,6 @@ app.use(cors({
     exposedHeaders: ["*"]
 }))
 app.use(cookieParser())
-
-app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 
