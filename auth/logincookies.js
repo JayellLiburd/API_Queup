@@ -43,7 +43,7 @@ router.get('/:id/login', (req, res) => {
 
     //Quaries!!!! //
     finduser = "select * from users where user_id = ?;"
-    findpref = "select * from queup.prefrences where user_id = ?;"
+    findpref = "select * from prefrences where user_id = ?;"
     constpref = "INSERT INTO prefrences (user_id) values (?);"
 
     db.query(finduser, user_id,
@@ -65,6 +65,8 @@ router.get('/:id/login', (req, res) => {
 
 
                         console.log(response)
+
+                        
                         //Create if dont have
                         if (response[0] <= 0) {db.query(constpref, user_id, (err, results) => {
 

@@ -41,8 +41,6 @@ router.post('/', (req, res) => {
     const username = req.body.username
     const password = req.body.password
 
-    console.log(username, password)
-
     finduser = "select * from users where username = ?;"
 
     db.query(finduser, username,
