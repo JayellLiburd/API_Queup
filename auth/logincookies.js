@@ -89,8 +89,8 @@ router.get('/:id/login', (req, res) => {
                         const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, 'password')
 
                         res
-                            .cookie('ss', AuthToken, {sameSite: 'lax', httpOnly: true})
-                            .cookie('rs', VToken, {sameSite: 'lax'})
+                            .cookie('ss', AuthToken, {httpOnly: true})
+                            .cookie('rs', VToken)
                             .send([result[0].first_name, tokenpref])
                         }
 
