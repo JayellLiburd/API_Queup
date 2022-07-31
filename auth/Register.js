@@ -14,13 +14,13 @@ const cookieParser = require('cookie-parser');
 
 //connecting to db
 const db = mysql.createPool({
-    host: 'queup.mysql.database.azure.com',
-    user: 'jayellliburd',
-    password: 'Ishmael01',
-    database: 'queup',
+    host: 'us-cdbr-east-06.cleardb.net',
+    user: 'b3ab8c52a3d35f',
+    password: 'a5705ad6',
+    database: 'heroku_261f2f1bf2cd823',
     port:3306,
- 
 });
+
 
 app.use(cors({
     origin: true,
