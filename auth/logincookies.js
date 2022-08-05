@@ -2,7 +2,8 @@ const express = require('express')
 const app = express()
 const mysql = require('mysql')
 const cors = require('cors');
-const router = express.Router();  
+const router = express.Router();
+var fs = require('fs');  
 
 const { sign } = require('jsonwebtoken')
 
@@ -22,6 +23,7 @@ const db = mysql.createPool({
 app.use(cors({
     origin: true,
     credentials: true,
+    exposedHeaders: ["*"]
 }))
 app.use(cookieParser())
 
@@ -61,18 +63,25 @@ router.get('/:id/login', (req, res) => {
                     //grabs prefrences
                     db.query(findpref, user_id, (err, response) => {
 
+
+                        console.log(response)
+
                         
                         //Create if dont have
                         if (response[0] <= 0) {db.query(constpref, user_id, (err, results) => {
 
                             db.query(findpref, user_id, (err, response) => {
+                                
+                                console.log(response)
 
                                 const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, 'password')
 
                                 res
-                                    .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true, domain: 'https://queup.vercel.app/'})
-                                    .cookie('rs', VToken, {sameSite: "none", secure: true, domain: 'https://queup.vercel.app/'})
+                                    .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true},
+)
+                                    .cookie('rs', VToken, {sameSite: "none", secure: true, })
                                     .send(tokenpref)
+
                                     
                         })})}
 
@@ -81,8 +90,8 @@ router.get('/:id/login', (req, res) => {
                         const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, 'password')
 
                         res
-                            .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true, domain: 'https://queup.vercel.app/'})
-                            .cookie('rs', VToken, {sameSite: "none", secure: true, domain: 'https://queup.vercel.app/' })
+                            .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true})
+                            .cookie('rs', VToken, {sameSite: "none", secure: true, })
                             .send([result[0].first_name, tokenpref])
                         }
 
