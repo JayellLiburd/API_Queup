@@ -87,10 +87,10 @@ router.get('/:id/login', (req, res) => {
                         //Grab prefrences if already created
                         else {
                         const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, 'password')
-
+                        const ss = ('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true, path: 'queup.vercel.app/'})
+                        const rs = ('rs', VToken, {sameSite: "none", secure: true, path: 'queup.vercel.app/'})
                         res 
-                            .setHeader('set-cookie', ('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true, path: 'queup.vercel.app/'}))
-                            .setHeader('set-cookie', ('rs', VToken, {sameSite: "none", secure: true, path: 'queup.vercel.app/'}))
+                            .setHeader('set-cookie', [rs, ss] )
                             .send([result[0].first_name, tokenpref])
                         }
 
