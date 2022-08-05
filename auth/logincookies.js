@@ -49,7 +49,9 @@ router.get('/:id/login', (req, res) => {
         (err, result) => {
 
             //If Error
-            if (err) { res.send({err: err}); }
+            if (err) { res
+                        .send({err: err})
+                        .send({message: 'No Auth'})}
             else {
 
                 //If Username match then...
