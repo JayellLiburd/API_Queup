@@ -62,16 +62,11 @@ router.get('/:id/login', (req, res) => {
                     //grabs prefrences
                     db.query(findpref, user_id, (err, response) => {
 
-
-                        console.log(response)
-
                         
                         //Create if dont have
                         if (response[0] <= 0) {db.query(constpref, user_id, (err, results) => {
 
                             db.query(findpref, user_id, (err, response) => {
-                                
-                                console.log(response)
 
                                 const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, 'password')
 
@@ -80,7 +75,6 @@ router.get('/:id/login', (req, res) => {
 )
                                     .cookie('rs', VToken, {sameSite: "none", secure: true})
                                     .send(tokenpref)
-
                                     
                         })})}
 
