@@ -25,9 +25,6 @@ app.use(cors({
     credentials: true,
     exposedHeaders: ["*"]
 }))
-app.use(Session({
-
-}))
 app.use(cookieParser())
 
 app.use(express.json());
