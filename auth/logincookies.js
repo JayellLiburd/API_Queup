@@ -22,7 +22,6 @@ const db = mysql.createPool({
 app.use(cors({
     origin: true,
     credentials: true,
-    exposedHeaders: ["*"]
 }))
 app.use(cookieParser())
 
@@ -71,9 +70,8 @@ router.get('/:id/login', (req, res) => {
                                 const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, 'password')
 
                                 res
-                                    .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true},
-)
-                                    .cookie('rs', VToken, {sameSite: "none", secure: true})
+                                    .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true},)
+                                    .cookie('rs', VToken, {sameSite: "none"})
                                     .send(tokenpref)
                                     
                         })})}
