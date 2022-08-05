@@ -39,8 +39,6 @@ router.get('/', (req, res) => {
         res.send({ message: 'No Auth' })}
 
     else {
-       if (req.cookies.ss) {
-
            try {
             const Token = verify(req.cookies.ss, 'password')
 
@@ -55,8 +53,7 @@ router.get('/', (req, res) => {
             )}
             catch (error) {res.send({ message: 'No Auth' })}
         }
-    }
-})
+    })
 
 router.get('/pro', (req, res) => {
     if (!req.cookies.ss) {
