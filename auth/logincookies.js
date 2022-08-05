@@ -2,8 +2,7 @@ const express = require('express')
 const app = express()
 const mysql = require('mysql')
 const cors = require('cors');
-const router = express.Router();
-var fs = require('fs');  
+const router = express.Router();  
 
 const { sign } = require('jsonwebtoken')
 
@@ -90,8 +89,8 @@ router.get('/:id/login', (req, res) => {
                         const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, 'password')
 
                         res
-                            .cookie('ss', AuthToken, {sameSite: "none", secure: true, domain: "https://jayellliburd.github.io/queup/", httpOnly: true})
-                            .cookie('rs', VToken, {sameSite: "none", secure: true, domain: "https://jayellliburd.github.io/queup/"})
+                            .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true})
+                            .cookie('rs', VToken, {sameSite: "none", secure: true})
                             .send([result[0].first_name, tokenpref])
                         }
 

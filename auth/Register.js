@@ -3,8 +3,6 @@ const app = express()
 const mysql = require('mysql')
 const cors = require('cors');
 const router = express.Router();
-var fs = require('fs'); 
-const util = require('util')
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -20,7 +18,6 @@ const db = mysql.createPool({
     database: 'heroku_261f2f1bf2cd823',
     port:3306,
 });
-
 
 app.use(cors({
     origin: true,

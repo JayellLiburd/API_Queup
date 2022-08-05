@@ -3,7 +3,6 @@ const app = express()
 const mysql = require('mysql')
 const cors = require('cors');
 const router = express.Router();
-var fs = require('fs'); 
 
 const bcrypt = require('bcrypt');
 
