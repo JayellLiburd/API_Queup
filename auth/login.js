@@ -19,8 +19,6 @@ const db = mysql.createPool({
     port:3306,
 });
 
-mysql://b3ab8c52a3d35f:a5705ad6@us-cdbr-east-06.cleardb.net/heroku_261f2f1bf2cd823?reconnect=true
-
 app.use(cors({
     origin: true,
     credentials: true,
