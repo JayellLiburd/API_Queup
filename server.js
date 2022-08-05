@@ -59,32 +59,6 @@ app.use('/set', cookies)
 //verify simple and get profile
 app.use('/verify', verifyuser)
 
-
-app.get('/auth/verify', (req, res) => {
-
-    if (!req.cookies.ss) {
-        res.send({ message: 'No Auth' })}
-
-    else {
-       if (req.cookies.ss) {
-
-           try {
-            const Token = verify(req.cookies.ss, 'password')
-
-            finduser = "select * from users where user_id = ?;"
-            db.query(finduser, Token.ssuid,
-                (err, results) => {
-                    if (err) { 
-                        res.send({ message: 'No Auth' })
-                    }
-                    else {res.send(results)}
-                }
-            )}
-            catch (error) {res.send({ message: 'No Auth' })}
-        }
-    }
-})
-
 app.post('/auth/:id/profile', (req, res) => {
 
     user_id = req.params.id
