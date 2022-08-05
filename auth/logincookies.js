@@ -70,8 +70,8 @@ router.get('/:id/login', (req, res) => {
                                 const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, 'password')
 
                                 res
-                                    .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true, Domain: 'https://queup.vercel.app/'})
-                                    .cookie('rs', VToken, {sameSite: "none", secure: true, Domain: 'https://queup.vercel.app/'})
+                                    .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true, domain: 'https://queup.vercel.app/'})
+                                    .cookie('rs', VToken, {sameSite: "none", secure: true, domain: 'https://queup.vercel.app/'})
                                     .send(tokenpref)
                                     
                         })})}
@@ -81,8 +81,8 @@ router.get('/:id/login', (req, res) => {
                         const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, 'password')
 
                         res
-                            .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true, Domain: 'https://queup.vercel.app/'})
-                            .cookie('rs', VToken, {sameSite: "none", secure: true, Domain: 'https://queup.vercel.app/' })
+                            .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true, domain: 'https://queup.vercel.app/'})
+                            .cookie('rs', VToken, {sameSite: "none", secure: true, domain: 'https://queup.vercel.app/' })
                             .send([result[0].first_name, tokenpref])
                         }
 
