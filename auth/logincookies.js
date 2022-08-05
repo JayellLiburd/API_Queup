@@ -82,7 +82,7 @@ router.get('/:id/login', (req, res) => {
 
                         res
                             .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true})
-                            .cookie('rs', VToken, {sameSite: "none", secure: true})
+                            .cookie('rs', VToken, {sameSite: "none"})
                             .send([result[0].first_name, tokenpref])
                         }
 
