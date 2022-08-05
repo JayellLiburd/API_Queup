@@ -70,8 +70,8 @@ router.get('/:id/login', (req, res) => {
                                 const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, 'password')
 
                                 res
-                                    .cookie('ss', AuthToken, {secure: true, httpOnly: true},)
-                                    .cookie('rs', VToken)
+                                    .cookie('ss', AuthToken, {sameSite: "lax", secure: true, httpOnly: true},)
+                                    .cookie('rs', VToken, {sameSite: "lax"})
                                     .send(tokenpref)
                                     
                         })})}
@@ -81,8 +81,8 @@ router.get('/:id/login', (req, res) => {
                         const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, 'password')
 
                         res
-                            .cookie('ss', AuthToken, {secure: true, httpOnly: true})
-                            .cookie('rs', VToken)
+                            .cookie('ss', AuthToken, {sameSite: "lax", secure: true, httpOnly: true})
+                            .cookie('rs', VToken, {sameSite: "lax"})
                             .send([result[0].first_name, tokenpref])
                         }
 

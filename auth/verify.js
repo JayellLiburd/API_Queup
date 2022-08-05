@@ -22,7 +22,6 @@ const db = mysql.createPool({
 app.use(cors({
     origin: true,
     credentials: true,
-    exposedHeaders: ["*"]
 }))
 app.use(cookieParser())
 
