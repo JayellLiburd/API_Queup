@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 // verify with cookies
 router.get('/', (req, res) => {
 
-    if (!req.cookies.ss) {
+    if (!req.cookies.rs) {
         res.send({ message: 'No Auth' })}
 
     else {
