@@ -90,7 +90,8 @@ router.get('/:id/login', (req, res) => {
                         const ss = ('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true, path: 'queup.vercel.app/'})
                         const rs = ('rs', VToken, {sameSite: "none", secure: true, path: 'queup.vercel.app/'})
                         res 
-                            .setHeader('set-cookie', [rs, ss] )
+                            .cookie(rs)
+                            .cookie(ss)
                             .send([result[0].first_name, tokenpref])
                         }
 
