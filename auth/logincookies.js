@@ -58,7 +58,7 @@ router.get('/:id/login', (req, res) => {
 
 
                     const AuthToken = sign({ ssuid: result[0].user_id }, 'password')
-                    const VToken = sign({ ssu: result[0].first_name }, 'password')
+                    const VToken = sign({ ssu: result[0].username }, 'password')
 
                     //grabs prefrences
                     db.query(findpref, user_id, (err, response) => {
