@@ -21,9 +21,8 @@ const db = mysql.createPool({
 
 
 app.use(cors({
-    origin: true,
+    origin: 'https://queup.vercel.app/',
     credentials: true,
-    methods: [POST, GET],
     exposedHeaders: ["*"]
 }))
 app.use(cookieParser())
