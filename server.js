@@ -19,8 +19,9 @@ const cookieParser = require('cookie-parser');
 });
 
 //middleware
+app.set("trust proxy", 1);
 app.use(cors({
-    origin: true,
+    origin: 'http://localhost:4000/',
     credentials: true,
     exposedHeaders: ["*"]
 }))
