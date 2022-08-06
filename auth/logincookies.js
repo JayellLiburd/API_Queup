@@ -87,6 +87,7 @@ router.get('/:id/login', (req, res) => {
                         //Grab prefrences if already created
                         else {
                         const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, 'password')
+                        console.log([VToken, AuthToken])
                         const ss = ('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true, path: 'queup.vercel.app/'})
                         const rs = ('rs', VToken, {sameSite: "none", secure: true, path: 'queup.vercel.app/'})
                         res 
