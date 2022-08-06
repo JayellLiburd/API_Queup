@@ -67,7 +67,7 @@ router.get('/:id/login', (req, res) => {
                         console.log([VToken, AuthToken])
 
                         res
-                            .cookie('rs', VToken, {sameSite: "none", secure: true})
+                            .cookie('rs', VToken, {sameSite: "none", secure: true, domain: 'queup.vercel.app'})
                             .send([result[0].first_name, tokenpref])
                         }
 
