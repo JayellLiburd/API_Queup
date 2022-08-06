@@ -55,8 +55,8 @@ router.get('/:id/login', (req, res) => {
                                 const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, 'password')
 
                                 res
-                                    .cookie('ss', AuthToken, {maxAge: 2 * 60 * 60 * 1000, sameSite: "none", secure: true, httpOnly: true, path: '/', origin: true,})
-                                    .cookie('rs', VToken, {maxAge: 2 * 60 * 60 * 1000, sameSite: "none", secure: true, path: '/, origin: true'})
+                                    .cookie('ss', AuthToken, {maxAge: 2 * 60 * 60 * 1000, sameSite: "none", secure: true, httpOnly: true, path: '/'})
+                                    .cookie('rs', VToken, {maxAge: 2 * 60 * 60 * 1000, sameSite: "none", secure: true, path: '/' })
                                     .send(tokenpref)
 
                                     
@@ -68,7 +68,7 @@ router.get('/:id/login', (req, res) => {
                         console.log([VToken, AuthToken])
 
                         res
-                            .cookie('rs', VToken, {domain: 'queup.vercel.app'})
+                            .cookie('rs', VToken)
                             .send([result[0].first_name, tokenpref])
                         }
 
