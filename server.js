@@ -23,6 +23,7 @@ app.set("trust proxy", 1);
 app.use(cors({
     origin: 'https://queup.vercel.app',
     credentials: true,
+    exposedHeaders: ["set-cookie"],
 }))
 app.use(cookieParser())
 
