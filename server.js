@@ -2,11 +2,8 @@ const express = require('express')
 const app = express()
 const mysql = require('mysql')
 const cors = require('cors');
-var fs = require('fs'); 
 
 const port = process.env.PORT || 4000
-
-const { verify } = require('jsonwebtoken')
 
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
