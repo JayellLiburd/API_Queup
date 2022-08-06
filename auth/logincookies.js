@@ -13,11 +13,6 @@ const db = mysql.createPool({
     port:3306,
 });
 
-app.use(cors({
-    origin: 'https://queup.vercel.app/',
-    credentials: true,
-}))
-
 
 // ---------------------------------- code begins here -------------------------------- //
 
