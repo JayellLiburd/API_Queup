@@ -21,15 +21,13 @@ const cookieParser = require('cookie-parser');
 //middleware
 app.set("trust proxy", 1);
 app.use(cors({
-    origin: 'https://expressqueup.herokuapp.com/',
+    origin: 'https://queup.vercel.app/',
     credentials: true,
 }))
 app.use(cookieParser())
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
-
-
 
 const homepage = require('./Pages/Home')
 const login = require('./auth/login')
