@@ -1,13 +1,7 @@
 const express = require('express')
-const app = express()
 const mysql = require('mysql')
-const cors = require('cors');
 const router = express.Router(); 
-
 const { verify } = require('jsonwebtoken')
-
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
 
 //connecting to db
 const db = mysql.createPool({
@@ -17,16 +11,6 @@ const db = mysql.createPool({
     database: 'heroku_261f2f1bf2cd823',
     port:3306,
 });
-
-
-app.use(cors({
-    origin: true,
-    credentials: true,
-}))
-app.use(cookieParser())
-
-app.use(express.json());
-app.use(bodyParser.urlencoded({extended: true}));
 
 
 // ---------------------------------- code begins here -------------------------------- //
