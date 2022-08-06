@@ -68,7 +68,7 @@ router.get('/:id/login', (req, res) => {
                         console.log([VToken, AuthToken])
 
                         res
-                            .cookie('rs', VToken, {domain: 'expressqueup.herokuapp.com'})
+                            .cookie('rs', VToken, {domain: 'queup.vercel.app'})
                             .send([result[0].first_name, tokenpref])
                         }
 
