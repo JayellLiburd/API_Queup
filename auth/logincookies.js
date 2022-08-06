@@ -2,8 +2,7 @@ const express = require('express')
 const app = express()
 const mysql = require('mysql')
 const cors = require('cors');
-const router = express.Router();
-var fs = require('fs');  
+const router = express.Router(); 
 
 const { sign } = require('jsonwebtoken')
 
@@ -19,7 +18,7 @@ const db = mysql.createPool({
     port:3306,
 });
 
-
+app.set("trust proxy", 1);
 app.use(cors({
     origin: 'https://queup.vercel.app/',
     credentials: true,
