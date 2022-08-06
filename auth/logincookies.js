@@ -85,10 +85,9 @@ router.get('/:id/login', (req, res) => {
                         const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, 'password')
                         console.log([VToken, AuthToken])
 
-                        res 
-                            .cookie('rs', VToken, {sameSite: "none", secure: true, path: '/'})
-                            .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true, path: '/'})
-                            .send([result[0].first_name, tokenpref])
+                        res.cookie('rs', VToken, {sameSite: "none", secure: true, path: '/'})
+                        res.cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true, path: '/'})
+                        res.send([result[0].first_name, tokenpref])
                         }
 
                 })} 
