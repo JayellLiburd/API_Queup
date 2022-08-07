@@ -2,6 +2,7 @@ const express = require('express')
 const mysql = require('mysql')
 const router = express.Router(); 
 const { verify } = require('jsonwebtoken')
+var useragent = require('useragent');
 
 //connecting to db
 const db = mysql.createPool({
@@ -17,6 +18,9 @@ const db = mysql.createPool({
 
 // verify with cookies
 router.get('/', (req, res) => {
+
+    var agent = useragent.parse(req.headers['user-agent'])
+    console.log(agent)
 
     if (!req.cookies.rs) {
         res.send({ message: 'No Auth' })}
