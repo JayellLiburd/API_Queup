@@ -47,7 +47,6 @@ router.get('/:id/login', (req, res) => {
                         
                         //Create if dont have
                         if (response.length <= 0) {db.query(constpref, user_id, (err, results) => {
-                            console.log(results)
 
                             //Now regrab with newly created prefrences and send cookies like normal
                             db.query(findpref, user_id, (err, response) => {

@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
     res
         .clearCookie('ss', {domain: 'queueupnext.com', path: '/'})
         .clearCookie('rs', {domain: 'queueupnext.com', path: '/'})
-        .send('cookies cleared')
+        .send({message: 'No Auth'})
 })
 
 
