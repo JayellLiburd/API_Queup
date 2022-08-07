@@ -19,7 +19,6 @@ const db = mysql.createPool({
 //Login with form
 router.post('/', (req, res) => {
     
-    console.log('1')
     const username = req.body.username
     const password = req.body.password
 
