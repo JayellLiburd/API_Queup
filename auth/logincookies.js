@@ -47,8 +47,10 @@ router.get('/:id/login', (req, res) => {
 
                         
                         //Create if dont have
-                        if (response[0] <= 0) {db.query(constpref, user_id, (err, results) => {
+                        if (response[0] <= 0 || undefined) {db.query(constpref, user_id, (err, results) => {
+                            console.log(results)
 
+                            //Now regrab with newly created prefrences
                             db.query(findpref, user_id, (err, response) => {
 
                                 const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, 'password')
