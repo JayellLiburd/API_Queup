@@ -2,7 +2,7 @@ const express = require('express')
 const mysql = require('mysql')
 const router = express.Router(); 
 const { verify } = require('jsonwebtoken')
-const useragent = require('express-useragent');
+const {parser} = require('ua-parser-js');
 
 const app = express()
 app.use(useragent.express());
@@ -22,7 +22,8 @@ const db = mysql.createPool({
 // verify with cookies
 router.get('/', (req, res) => {
 
-    console.log(req.useragent)
+    var ua = parser(req.headers['user-agent']);
+    console.log(JSON.stringify(ua, null, ''))
 
     if (!req.cookies.rs) {
         res.send({ message: 'No Auth' })}
