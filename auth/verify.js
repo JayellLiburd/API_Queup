@@ -40,7 +40,7 @@ router.get('/', (req, res) => {
 
 router.get('/pro', (req, res) => {
     if (!req.cookies.ss) {
-        res.send({ message: 'No Auth 1' })}
+        res.send({ message: 'No Auth' })}
 
     else {
        if (req.cookies.ss) {
@@ -48,18 +48,18 @@ router.get('/pro', (req, res) => {
            try {
             const Token = verify(req.cookies.ss, 'password')
             
-            finduser = "select * from queup.users where user_id = ?;"
+            finduser = "select * from users where user_id = ?;"
             db.query(finduser, Token.ssuid,
                 
                 (err, results) => {
                 
                     if (err) { 
-                        res.send({ message: 'No Auth 2' })
+                        res.send({ message: 'No Auth' })
                     }
                     else {res.send(results)}
                 }
             )}
-            catch (error) {res.send({ message: 'No Auth 3' })}
+            catch (error) {res.send({ message: 'No Auth' })}
         }
     }
 })
