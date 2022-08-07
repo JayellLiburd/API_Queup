@@ -40,7 +40,7 @@ router.get('/', (req, res) => {
 
 router.get('/pro', (req, res) => {
     if (!req.cookies.ss) {
-        res.send({ message: 'No Auth' })}
+        res.send({ message: 'No Auth 1' })}
 
     else {
        if (req.cookies.ss) {
@@ -54,12 +54,12 @@ router.get('/pro', (req, res) => {
                 (err, results) => {
                 
                     if (err) { 
-                        res.send({ message: 'No Auth' })
+                        res.send({ message: 'No Auth 2' })
                     }
                     else {res.send(results)}
                 }
             )}
-            catch (error) {res.send({ message: 'No Auth' })}
+            catch (error) {res.send({ message: 'No Auth 3' })}
         }
     }
 })
