@@ -54,9 +54,9 @@ router.get('/:id/login', (req, res) => {
                                 const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, 'password')
 
                                 res
-                                    .cookie('ss', AuthToken, {maxAge: 2 * 60 * 60 * 1000, sameSite: "none", secure: true, httpOnly: true})
-                                    .cookie('rs', VToken, {maxAge: 2 * 60 * 60 * 1000, sameSite: "none", secure: true })
-                                    .send(tokenpref)
+                                    .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true, domain: 'queueupnext.com'})
+                                    .cookie('rs', VToken, {sameSite: "none", secure: true, domain: 'queueupnext.com'})
+                                    .send([result[0].first_name, tokenpref])
 
                                     
                         })})}
