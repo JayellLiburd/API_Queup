@@ -4,6 +4,7 @@ const router = express.Router();
 const { verify } = require('jsonwebtoken')
 const useragent = require('express-useragent');
 
+const app = express()
 app.use(useragent.express());
 
 //connecting to db
