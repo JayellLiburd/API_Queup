@@ -2,7 +2,7 @@ const express = require('express')
 const mysql = require('mysql')
 const router = express.Router(); 
 const { verify } = require('jsonwebtoken')
-const {parser} = require('ua-parser-js');
+const parser = require('ua-parser-js');
 
 //connecting to db
 const db = mysql.createPool({
