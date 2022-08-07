@@ -17,10 +17,10 @@
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "express": "^4.18.1",
+    "express-useragent": "^1.0.15",
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
-    "nodemon": "^2.0.19",
-    "useragent": "^2.3.0"
+    "nodemon": "^2.0.19"
   },
   "devDependencies": {
     "html-webpack-link-type-plugin": "^1.1.1"
