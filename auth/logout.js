@@ -26,7 +26,7 @@ router.get('/', (req, res) => {
     req.cookies
     res
         .clearCookie('ss', {sameSite: "none", secure: true, httpOnly: true, domain: 'queueupnext.com'})
-        .clearCookie('rs', {sameSite: "none", secure: true, httpOnly: true, domain: 'queueupnext.com'})
+        .clearCookie('rs', {sameSite: "none", secure: true, domain: 'queueupnext.com'})
         .send('cookies cleared')
 })
 
