@@ -20,7 +20,7 @@ const db = mysql.createPool({
 router.get('/', (req, res) => {
 
     var agent = useragent.is(req.headers['user-agent'])
-    console.log(agent.device.toString())
+    console.log(agent.device)
 
     if (!req.cookies.rs) {
         res.send({ message: 'No Auth' })}
