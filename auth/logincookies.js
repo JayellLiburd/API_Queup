@@ -45,6 +45,8 @@ router.get('/:id/login', (req, res) => {
                     //grabs prefrences
                     db.query(findpref, user_id, (err, response) => {
 
+                        console.log('1100')
+                        console.log(response)
                         
                         //Create if dont have
                         if (response[0] <= 0 || undefined) {db.query(constpref, user_id, (err, results) => {

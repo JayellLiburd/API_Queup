@@ -1,14 +1,9 @@
 const express = require('express')
-const app = express()
 const mysql = require('mysql')
-const cors = require('cors');
 const router = express.Router();
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
 
 //connecting to db
 const db = mysql.createPool({
@@ -19,13 +14,6 @@ const db = mysql.createPool({
     port:3306,
 });
 
-app.use(cors({
-    origin: true,
-    credentials: true,
-    exposedHeaders: ["*"]
-}))
-app.use(cookieParser())
-app.use(bodyParser.urlencoded({extended: true}));
 
 
 // ---------------------------------- code begins here -------------------------------- //
