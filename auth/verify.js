@@ -4,9 +4,6 @@ const router = express.Router();
 const { verify } = require('jsonwebtoken')
 const {parser} = require('ua-parser-js');
 
-const app = express()
-app.use(useragent.express());
-
 //connecting to db
 const db = mysql.createPool({
     host: 'us-cdbr-east-06.cleardb.net',
