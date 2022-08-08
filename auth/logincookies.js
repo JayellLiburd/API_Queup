@@ -23,9 +23,6 @@ const db = mysql.createPool({
 router.get('/:id/login', (req, res) => {
 
     var ua = parser(req.headers['user-agent']);
-    console.log(ua.device.model)
-    const test = ua.device.model == 'iPhone'
-    console.log(test)
     user_id = req.params.id
 
     //Quaries!!!! //
@@ -75,7 +72,6 @@ router.get('/:id/login', (req, res) => {
                         //Grab prefrences if already created
                         else {
                         const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, 'password')
-                        console.log([VToken, AuthToken])
 
                         if(ua.device.model == 'iPhone'){
                             res
