@@ -21,7 +21,7 @@ const cookieParser = require('cookie-parser');
 //middleware
 app.set("trust proxy", 1);
 app.use(cors({
-    origin: 'https://www.queueupnext.com',
+    origin: 'https://queueupnext.com',
     credentials: true,
     exposedHeaders: ["set-cookie"],
 }))
