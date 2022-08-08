@@ -1,6 +1,7 @@
 const express = require('express')
 const mysql = require('mysql')
-const router = express.Router(); 
+const router = express.Router();
+const parser = require('ua-parser-js');
 
 const { sign } = require('jsonwebtoken')
 
@@ -21,6 +22,8 @@ const db = mysql.createPool({
 // After verify this sends cookie with get usin url form react form //
 router.get('/:id/login', (req, res) => {
 
+    var ua = parser(req.headers['user-agent']);
+    console.log(ua.device)
     user_id = req.params.id
 
     //Quaries!!!! //
@@ -53,12 +56,18 @@ router.get('/:id/login', (req, res) => {
 
                                 const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, 'password')
 
-                                res
-                                    .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true, domain: 'queueupnext.com'})
+                                if(ua.device.model == 'iPhone'){
+                                    res
+                                    .cookie('ss', AuthToken, {sameSite: "none", secure: true, domain: 'queueupnext.com'})
                                     .cookie('rs', VToken, {sameSite: "none", secure: true, domain: 'queueupnext.com'})
                                     .send([result[0].first_name, tokenpref])
-
-                                    
+                                }
+                                else {
+                                    res
+                                        .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true, domain: 'queueupnext.com'})
+                                        .cookie('rs', VToken, {sameSite: "none", secure: true, domain: 'queueupnext.com'})
+                                        .send([result[0].first_name, tokenpref])
+                                }           
                         })})}
 
                         //Grab prefrences if already created
