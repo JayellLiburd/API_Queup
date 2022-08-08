@@ -23,7 +23,9 @@ const db = mysql.createPool({
 router.get('/:id/login', (req, res) => {
 
     var ua = parser(req.headers['user-agent']);
-    console.log(ua.device)
+    console.log(ua.device.model)
+    const test = ua.device.model == 'iphone'
+    console.log(test)
     user_id = req.params.id
 
     //Quaries!!!! //
