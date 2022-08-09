@@ -37,6 +37,11 @@ const cookies = require('./auth/logincookies');
 const verifyuser = require('./auth/verify')
 const createUser = require('./auth/Register')
 
+app.post('/dummy', (req, res) => {
+    req.body.a
+    console.log('1')
+})
+
 //Home page
 app.use('/', homepage)
 
@@ -64,8 +69,7 @@ app.post('/auth/:id/profile', (req, res) => {
     db.query(finduser, user_id,
     (err, result) => {
         if (err) { 
-            res
-                .send({err: err})
+            res.send({err: err})
         }
         if (result.length > 0) {
             updates = "UPDATE users SET first_name = ?, last_name = ?, email = ?, address_1 = ?, phone = ?, last_update = CURRENT_TIMESTAMP() WHERE (user_id = ?);"
@@ -73,11 +77,6 @@ app.post('/auth/:id/profile', (req, res) => {
             res.send('updated')
         }
     })
-})
-
-app.post('/dummy', (req, res) => {
-    req.body.a
-    console.log('1')
 })
 
 
