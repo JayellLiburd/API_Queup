@@ -76,6 +76,7 @@ app.post('/auth/:id/profile', (req, res) => {
 })
 
 app.post('/dummy', (req, res) => {
+    req.body.a
     console.log('1')
 })
 
