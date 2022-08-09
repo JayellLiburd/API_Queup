@@ -56,9 +56,9 @@ router.get('/:id/login', (req, res) => {
 
                             if(ua.device.model == 'iPhone'){
                                 res
-                                .cookie('ss', AuthToken, {sameSite: "none", secure: true, domain: 'queueupnext.com'})
-                                .cookie('rs', VToken, {sameSite: "none", secure: true, domain: 'queueupnext.com'})
-                                .send([result[0].first_name, tokenpref])
+                                    .cookie('ss', AuthToken, {sameSite: "none", secure: true, domain: 'queueupnext.com'})
+                                    .cookie('rs', VToken, {sameSite: "none", secure: true, domain: 'queueupnext.com'})
+                                    .send([result[0].first_name, tokenpref])
                             }
                             else {
                                 res
@@ -74,9 +74,9 @@ router.get('/:id/login', (req, res) => {
 
                         if(ua.device.model == 'iPhone'){
                             res
-                            .cookie('ss', AuthToken, {sameSite: "none", secure: true, domain: 'queueupnext.com'})
-                            .cookie('rs', VToken, {sameSite: "none", secure: true, domain: 'queueupnext.com'})
-                            .send([result[0].first_name, tokenpref])
+                                .cookie('ss', AuthToken, {sameSite: "none", secure: true, domain: 'queueupnext.com'})
+                                .cookie('rs', VToken, {sameSite: "none", secure: true, domain: 'queueupnext.com'})
+                                .send([result[0].first_name, tokenpref])
                         }
                         else {
                             res

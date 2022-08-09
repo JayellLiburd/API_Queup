@@ -40,9 +40,13 @@ const createUser = require('./auth/Register')
 app.post('/dummy', (req, res) => {
     req.header
     console.log('1')
-    res.cookie('ss', '12345', {sameSite: "none", secure: true, domain: 'queueupnext.com'})
+    res.cookie('hello', '12345', {sameSite: "none", secure: true, domain: 'queueupnext.com'})
     res.send({message: 'hello'})
 })
+app.get('/dummy', (req, res) => {
+    console.log(req.cookies)
+    res.send({message: 'hello'})}
+)
 
 //Home page
 app.use('/', homepage)
