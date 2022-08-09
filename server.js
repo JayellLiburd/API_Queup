@@ -73,7 +73,7 @@ app.post('/auth/:id/profile', (req, res) => {
             res.send('updated')
         }
     })
-});
+})
 
 app.post('/dummy', (req, res) => {
     console.log('1')
