@@ -76,8 +76,7 @@ app.post('/auth/:id/profile', (req, res) => {
 });
 
 app.post('/dummy', (req, res) => {
-    req.cookies
-    res.cookie('dummy', '12345', {sameSite: "none", secure: true, httpOnly: true, domain: 'queueupnext.com'})
+    res.cookie('dummy', '12345', {sameSite: "none", secure: true, domain: 'queueupnext.com'})
 })
 
 
