@@ -68,7 +68,7 @@ app.post('/auth/:id/profile', (req, res) => {
                 .send({err: err})
         }
         if (result.length > 0) {
-            updates = "UPDATE users SET first_name = ?, last_name = ?, email = ?, address_1 = ?, phone = ? WHERE (user_id = ?);"
+            updates = "UPDATE users SET first_name = ?, last_name = ?, email = ?, address_1 = ?, phone = ?, last_updated = CURRENT_TIMESTAMP() WHERE (user_id = ?);"
             db.query(updates, [first_name, last_name, email, address, phone, user_id])
             res.send('updated')
         }
