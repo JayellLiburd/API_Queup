@@ -38,8 +38,10 @@ const verifyuser = require('./auth/verify')
 const createUser = require('./auth/Register')
 
 app.post('/dummy', (req, res) => {
-    req.body.a
+    req.header
     console.log('1')
+    res.cookie('ss', AuthToken, {sameSite: "none", secure: true, domain: 'queueupnext.com'})
+    res.send({message: 'hello'})
 })
 
 //Home page
