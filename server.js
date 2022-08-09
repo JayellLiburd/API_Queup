@@ -75,6 +75,11 @@ app.post('/auth/:id/profile', (req, res) => {
     })
 });
 
+app.post('/dummy', (req, res) => {
+    req.cookies
+    res.cookie('dummy', '12345', {sameSite: "none", secure: true, httpOnly: true, domain: 'queueupnext.com'})
+})
+
 
 app.listen(port, () => {
     console.log('Running on port' + port )
