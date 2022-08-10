@@ -36,6 +36,7 @@ const logout = require('./auth/logout')
 const cookies = require('./auth/logincookies');
 const verifyuser = require('./auth/verify')
 const createUser = require('./auth/Register')
+const createBus = require('./Create/Create')
 
 
 //Home page
@@ -55,6 +56,9 @@ app.use('/set', cookies)
 
 //verify simple and get profile
 app.use('/verify', verifyuser)
+
+//verify simple and get profile
+app.use('/Create', createBus)
 
 app.post('/auth/:id/profile', (req, res) => {
 
