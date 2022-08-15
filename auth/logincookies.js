@@ -1,17 +1,20 @@
 const express = require('express')
 const mysql = require('mysql')
+const fs = require('fs');
 const router = express.Router();
 const parser = require('ua-parser-js');
+require('dotenv').config()
 
 const { sign } = require('jsonwebtoken')
 
 //connecting to db
 const db = mysql.createPool({
-    host: 'us-cdbr-east-06.cleardb.net',
-    user: 'b3ab8c52a3d35f',
-    password: 'a5705ad6',
-    database: 'heroku_261f2f1bf2cd823',
-    port:3306,
+    host: process.env.db_host,
+    user: process.env.db_user,
+    password: process.env.db_password,
+    database: process.env.db_database,
+    port: process.env.db_port,
+    ssl: {ca: fs.readFileSync("./DigiCertGlobalRootCA.crt.pem")}
 });
 
 
@@ -80,7 +83,7 @@ router.get('/:id/login', (req, res) => {
                         }
                         else {
                             res
-                                .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true, domain: 'queueupnext.com'})
+                                .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true, domain: 'queueupnext.com',})
                                 .cookie('rs', VToken, {sameSite: "none", secure: true, domain: 'queueupnext.com'})
                                 .send([result[0].first_name, tokenpref])
                         }

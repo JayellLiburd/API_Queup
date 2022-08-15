@@ -1,7 +1,10 @@
 const express = require('express')
+const session = require('express-session')
+const fs = require('fs');
 const app = express()
 const mysql = require('mysql')
 const cors = require('cors');
+require('dotenv').config()
 
 const port = process.env.PORT || 4000
 
@@ -10,26 +13,35 @@ const cookieParser = require('cookie-parser');
 
 
 //connecting to db
- const db = mysql.createPool({
-    host: 'us-cdbr-east-06.cleardb.net',
-    user: 'b3ab8c52a3d35f',
-    password: 'a5705ad6',
-    database: 'heroku_261f2f1bf2cd823',
-    port:3306,
+const db = mysql.createPool({
+    host: process.env.db_host,
+    user: process.env.db_user,
+    password: process.env.db_password,
+    database: process.env.db_database,
+    port: process.env.db_port,
+
 });
 
 //middleware
 app.set("trust proxy", 1);
 app.use(cors({
-    origin: 'https://queueupnext.com',
+    origin: 'https://api.queueupnext.com',
     credentials: true,
     exposedHeaders: ["set-cookie"],
 }))
 app.use(cookieParser())
 
 app.use(express.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(session({
+    resave: false,
+    saveUninitialized: true,
+    secret: process.env.session_key 
+}))
 
+
+
+//Routes
 const homepage = require('./Pages/Home')
 const login = require('./auth/login')
 const logout = require('./auth/logout')
@@ -67,19 +79,17 @@ app.post('/auth/:id/profile', (req, res) => {
 
     finduser = "select * from users where user_id = ?;"
     db.query(finduser, user_id,
-    (err, result) => {
-        if (err) { 
-            res.send({err: err})
-        }
-        if (result.length > 0) {
-            updates = "UPDATE users SET first_name = ?, last_name = ?, email = ?, address_1 = ?, phone = ?, last_update = CURRENT_TIMESTAMP() WHERE (user_id = ?);"
-            db.query(updates, [first_name, last_name, email, address, phone, user_id])
-            res.send('updated')
-        }
+        (err, result) => {
+
+            if (err) { res.send({err: err}) }
+
+            if (result.length > 0) {
+                updates = "UPDATE users SET first_name = ?, last_name = ?, email = ?, address_1 = ?, phone = ?, last_update = CURRENT_TIMESTAMP() WHERE (user_id = ?);"
+                db.query(updates, [first_name, last_name, email, address, phone, user_id])
+                res.send('updated')
+            }
     })
 })
 
 
-app.listen(port, () => {
-    console.log('Running on port' + port )
-});
+app.listen( port, () => { console.log('Running on port' + port )});
