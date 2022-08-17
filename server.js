@@ -25,7 +25,7 @@ const db = mysql.createPool({
 //middleware
 app.set("trust proxy", 1);
 app.use(cors({
-    origin: 'https://app.queueupnext.com',
+    origin: 'https://queueupnext.com',
     credentials: true,
     exposedHeaders: ["set-cookie"],
 }))
