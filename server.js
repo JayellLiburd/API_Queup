@@ -7,6 +7,8 @@ const cors = require('cors');
 require('dotenv').config()
 const { v4: uuidv4 } = require('uuid');
 
+require('@google-cloud/debug-agent').start({serviceContext: {enableCanary: true}});
+
 const port = process.env.PORT || 4000
 
 const bodyParser = require('body-parser');
