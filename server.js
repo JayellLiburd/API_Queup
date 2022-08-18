@@ -5,6 +5,7 @@ const app = express()
 const mysql = require('mysql')
 const cors = require('cors');
 require('dotenv').config()
+const { v4: uuidv4 } = require('uuid');
 
 const port = process.env.PORT || 4000
 
@@ -19,7 +20,7 @@ const db = mysql.createPool({
     password: process.env.db_password,
     database: process.env.db_database,
     port: process.env.db_port,
-
+    ssl: {ca: fs.readFileSync("./DigiCertGlobalRootCA.crt.pem")}
 });
 
 //middleware
@@ -34,6 +35,9 @@ app.use(cookieParser())
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(session({
+    genid: function(req) {
+        return uuidv4() // use UUIDs for session IDs
+      },
     resave: false,
     saveUninitialized: true,
     secret: process.env.session_key 

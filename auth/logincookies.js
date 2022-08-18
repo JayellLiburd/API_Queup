@@ -67,6 +67,7 @@ router.get('/:id/login', (req, res) => {
                                 res
                                     .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true, domain: 'queueupnext.com'})
                                     .cookie('rs', VToken, {sameSite: "none", secure: true, domain: 'queueupnext.com'})
+                                    .cookie('rs', tokenpref, {sameSite: "none", secure: true, domain: 'queueupnext.com'})
                                     .send([result[0].first_name, tokenpref])
                             }           
                     })})}

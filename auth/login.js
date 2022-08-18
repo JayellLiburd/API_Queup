@@ -24,7 +24,7 @@ router.post('/', (req, res) => {
     const username = req.body.username
     const password = req.body.password
 
-    finduser = "select * from users where username = ?;"
+    finduser = 'select * from users where username = ?'
 
     db.query(finduser, username,
         (err, result) => {
@@ -32,6 +32,7 @@ router.post('/', (req, res) => {
             else {
 
                 if (result[0] == undefined) { res.send({message: 'User not found'})}
+
                 else {
 
                     //If no Username match then...
@@ -39,8 +40,12 @@ router.post('/', (req, res) => {
 
                     //If found Username then match password and redirect to...
                     if (result[0]) {bcrypt.compare(password, result[0].password, (error, response) => {
-                        if (response) {res.send([result[0].first_name, result[0].user_id])}
-                        else {res.send({message: 'Wrong Username or Password'})
+
+                        if (response) {
+                            res.send( [result[0].first_name, result[0].user_id] )}
+
+                        else {
+                            res.send({message: 'Wrong Username or Password'})
                         
                     }})}
 
