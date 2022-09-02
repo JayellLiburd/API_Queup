@@ -35,7 +35,7 @@ router.get('/', (req, res) => {
                     if (err) { 
                         res.send({ message: 'No Auth' })
                     }
-                    else {res.send([{user: results[0].username}, {name: results[0].first_name}])}
+                    else {res.send([{username: results[0].username, name: results[0].first_name}])}
                 }
             )}
             catch (error) {res.send({ message: 'No Auth' })}

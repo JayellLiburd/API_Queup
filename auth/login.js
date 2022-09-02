@@ -29,8 +29,8 @@ router.post('/', (req, res) => {
     db.query(finduser, username,
         (err, result) => {
             if (err) { res.send({err: err}); console.log(err)}
+            
             else {
-
                 if (result[0] == undefined) { res.send({message: 'User not found'})}
 
                 else {

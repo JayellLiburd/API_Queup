@@ -28,7 +28,7 @@ const db = mysql.createPool({
 //middleware
 app.set("trust proxy", 1);
 app.use(cors({
-    origin: 'https://queueupnext.com',
+    origin: ['https://queueupnext.com','http://localhost:3000'],
     credentials: true,
     exposedHeaders: ["set-cookie"],
 }))
@@ -76,7 +76,7 @@ app.use('/set', cookies)
 app.use('/verify', verifyuser)
 
 //verify simple and get profile
-app.use('/Create', createBus)
+app.use('/createque', createBus)
 
 app.post('/auth/:id/profile', (req, res) => {
 
