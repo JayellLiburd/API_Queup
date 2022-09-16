@@ -5,11 +5,116 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link type="text/css" href="style.css">
-
     <title>Document</title>
 </head>
 <body>
-    <h1>Welcome to ExpressJS for Queup</h1>
+    <nav>
+        <a href="">Queup</a>
+        <div>
+            <p>Home</p>
+            <p>Admin</p>
+            <p>Documentaion</p>
+            <p>Status</p>
+        </div>
+    </nav>
+    <span></span>
+    <div class="content">
+        <section class="header">
+            <h1>Welcome to ExpressJS API Services for Queup</h1>
+            <p>created my Jayell Liburd</p>
+            <img src="./Queup.png" alt="">
+        </section>
+        <div class="info">
+            <h3>Server Summary</h3>
+            <summary>Backend using Nodejs Expressjs for the React Application Queup</summary>
+            <div class="imgholder"><img src="./Capture.jpg" alt=""></div>
+        </div>
+    </div>
 </body>
+<style>
+    body{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-family: sans-serif;
+        background-color: rgb(255, 255, 255);
+        overflow: hidden;
+    }
+    nav{
+        position: fixed;
+        top: 0rem;
+        display: flex;
+        justify-content: space-around;
+        width: 100vw;
+        background-color: rgb(223, 223, 223);
+        border-bottom: 1px solid grey;
+    }
+    nav div{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    nav a{
+        all: unset;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.6rem;
+        font-weight: bold;
+        margin: 0; 
+        color: black;
+        cursor: pointer;
+    }
+    nav div p{
+        font-size: 1.2rem;
+        padding: 0 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all .5s ease;
+    }
+    nav div p:hover{
+        color: brown;
+        text-decoration: underline brown;
+    }
+    span{
+        position: absolute;
+        left: -4rem;
+        bottom: -9rem;
+        width: calc(100vw + 5rem);
+        height: 75vh;
+        rotate: 5deg;
+        background-color: beige;
+        z-index: -1;
+    }
+    .content{
+        margin-top: 5rem;
+        width: 80vw;
+    }
+    .content .header{display: flex; flex-direction: column; width: 68rem; font: 1em sans-serif;}
+    .content p{text-align: end; color: brown; font-weight: bold;}
+    .content h1{text-align: end; font-size: 3rem; margin: 0; padding-top: 2rem;}
+    .content section img{
+        position: absolute;
+        top: 5rem;
+        right: 20rem;
+        aspect-ratio: 1/1;
+        width: 25rem;
+    }
+    .content .info{margin-top: 15rem;}
+    .content .info .imgholder{
+        position: absolute;
+        left: 50rem;
+        width: 35rem;
+        height: 20rem;
+        border: 3px solid black;
+        border-radius: 1rem;
+        overflow: hidden;
+    }
+    .content .info img{
+        border-radius: 1rem;
+        width: 35rem;
+        height: 20rem;
+    }
+</style>
 </html>

@@ -51,7 +51,6 @@ app.use(session({
 const homepage = require('./Pages/Home')
 const login = require('./auth/login')
 const logout = require('./auth/logout')
-const cookies = require('./auth/logincookies');
 const verifyuser = require('./auth/verify')
 const createUser = require('./auth/Register')
 const createBus = require('./Create/Create')
@@ -68,9 +67,6 @@ app.use('/login', login)
 
 //logout
 app.use('/logout', logout)
-
-//login cookies
-app.use('/set', cookies)
 
 //verify simple and get profile
 app.use('/verify', verifyuser)

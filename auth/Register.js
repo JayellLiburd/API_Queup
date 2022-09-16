@@ -5,7 +5,6 @@ const router = express.Router();
 require('dotenv').config()
 
 const bcrypt = require('bcrypt');
-const { decode } = require('jsonwebtoken');
 const saltRounds = 10;
 
 //connecting to db
@@ -24,31 +23,21 @@ const db = mysql.createPool({
 
 //Register User
 router.post('/', (req, res) => {
-    const user = decode(req.body.user)
+    const first_name  = req.body.first_name
+    const last_name = req.body.last_name
+    const email = req.body.email
+    const username = req.body.username
+    const password = req.body.password
 
-    if (user.sub) {
-        const sqlInsert1 = "INSERT INTO users (user_id, username, first_name, last_name, email, last_update, created) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());"
-        db.query(sqlInsert1, [user.sub, user.sub, user.given_name, user.family_name, user.email], (err, response) => { 
+    bcrypt.hash(password, saltRounds, (err, hash) => {
+        const sqlInsert2 = "INSERT INTO users (user_id, username, first_name, last_name, email, last_update, created) VALUES ((replace(uuid(),'-','')), ?, ?, ?, ?, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());"
+        try { db.query(sqlInsert2, [username, hash, first_name, last_name, email], (err, response) => { 
             if (err) { res.send({err: err})} 
-            else res.send({ssuid: user.sub})
-        })
-
-    } else {
-        const first_name  = req.body.first_name
-        const last_name = req.body.last_name
-        const email = req.body.email
-        const username = req.body.username
-        const password = req.body.password
-
-        bcrypt.hash(password, saltRounds, (err, hash) => {
-            const sqlInsert2 = "INSERT INTO users (user_id, username, first_name, last_name, email, last_update, created) VALUES ((replace(uuid(),'-','')), ?, ?, ?, ?, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());"
-            try { db.query(sqlInsert2, [username, hash, first_name, last_name, email], (err, response) => { 
-                if (errfdrfv) { res.send({err: err})} 
-                else res.send({message: 'User Created'}) 
-            })}
-            catch (err) { console.log(err) }
-        })
-    }
+            else res.send({message: 'Account Created'}) 
+        })}
+        catch (err) { console.log(err) }
+    })
+    
 })
 
 

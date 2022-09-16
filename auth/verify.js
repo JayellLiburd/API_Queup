@@ -24,22 +24,37 @@ const db = mysql.createPool({
 router.get('/', (req, res) => {
     if (!req.cookies.rs) {
         res.send({ message: 'No Auth' })}
-
     else {
-           try {
-            const Token = verify(req.cookies.ss, 'password')
-
+        try {var Token = verify(req.cookies.ss, process.env.cookie_secret)} catch (error) {
+            res
+            .clearCookie('ss', {domain: process.env.cookie_domains, path: '/'})
+            .clearCookie('rs', {domain: process.env.cookie_domains, path: '/'})
+            .send({message: 'Technical Error'}); console.log(error); return}
+        try {
             finduser = "select * from users where user_id = ?;"
             db.query(finduser, Token.ssuid,
                 (err, results) => {
-                    if (err) { 
-                        res.send({ message: 'No Auth' })
+                    if (err) { res.send({ message: 'No Auth' }); console.log(err)}
+                    else {
+                        if (results[0]) {res.send([{username: results[0].username, name: results[0].first_name}])}
+                        else {
+                            res
+                            .clearCookie('ss', {domain: process.env.cookie_domains, path: '/'})
+                            .clearCookie('rs', {domain: process.env.cookie_domains, path: '/'})
+                            .send({message: 'Technical Error'})
+                            console.log(err);
+                        }
                     }
-                    else {res.send([{username: results[0].username, name: results[0].first_name}])}
                 }
-            )}
-            catch (error) {res.send({ message: 'No Auth' })}
+            )
         }
+        catch (err) {
+            console.log(err); 
+            res
+            .clearCookie('ss', {domain: process.env.cookie_domains, path: '/'})
+            .clearCookie('rs', {domain: process.env.cookie_domains, path: '/'})
+            .send({ message: 'No Auth' }) }
+    }
 })
 
 router.post('/', (req, res) => {
@@ -50,13 +65,10 @@ router.post('/', (req, res) => {
         try {
             const user = decode(user_cred)
             const id = (user.sub)
-            console.log(id)
-
 
             finduser = "select * from users where user_id = ?;"
             db.query(finduser, id,
                 (err, results) => {
-                    console.log(results)
                     if (results.length > 0) { res.send([{user: results[0].username, name: results[0].first_name}]) }   
                     else { res.send({ message: 'Redirecting to Sign up'}) }
                 }
@@ -74,7 +86,7 @@ router.get('/pro', (req, res) => {
        if (req.cookies.ss) {
 
            try {
-            const Token = verify(req.cookies.ss, 'password')
+            try {var Token = verify(req.cookies.ss, process.env.cookie_secret)} catch (error) {res.send({message: 'Technical Error'}); console.log(error); return}
             
             finduser = "select * from users where user_id = ?;"
             db.query(finduser, Token.ssuid,
