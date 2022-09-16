@@ -30,7 +30,7 @@ router.post('/', (req, res) => {
     const password = req.body.password
 
     bcrypt.hash(password, saltRounds, (err, hash) => {
-        const sqlInsert2 = "INSERT INTO users (user_id, username, first_name, last_name, email, last_update, created) VALUES ((replace(uuid(),'-','')), ?, ?, ?, ?, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());"
+        const sqlInsert2 = "INSERT INTO users (user_id, username, password, first_name, last_name, email, last_update, created) VALUES ((replace(uuid(),'-','')), ?, ?, ?, ?, ?, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());"
         try { db.query(sqlInsert2, [username, hash, first_name, last_name, email], (err, response) => { 
             if (err) { res.send({err: err})} 
             else res.send({message: 'Account Created'}) 

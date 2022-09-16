@@ -25,6 +25,7 @@ router.post('/',
     (req, res, next) => {
 
         var ua = parser(req.headers['user-agent'])
+        if(ua.device.model == 'iPhone') {var httpOnly = true}
 
         // LOOK FOR GGOGLE CREDENTIALS OTHERWISE SKIP TO NEXT FUNCTION
         if (!req.body.user) { next() }
@@ -52,40 +53,23 @@ router.post('/',
 
                                 //Now regrab with newly created prefrences and send cookies like normal
                                 db.query(findpref, result[0].user_id, (err, response) => {
-                                    if (err) { console.log(err)}
-
+                                    if (err) { console.log(err); return}
                                     const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, process.env.cookie_secret)
-                                    if(ua.device.model == 'iPhone'){
-                                        res
-                                            .cookie('ss', AuthToken, {sameSite: "none", secure: true, domain: process.env.cookie_domains,})
-                                            .cookie('rs', VToken, {sameSite: "none", secure: true, domain: process.env.cookie_domains,})
-                                            .send([result[0].first_name, tokenpref])
-                                    }
-                                    else {
-                                        res
-                                            .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true, domain: process.env.cookie_domains,})
-                                            .cookie('rs', VToken, {sameSite: "none", secure: true, domain: process.env.cookie_domains,})
-                                            .send([result[0].first_name, tokenpref])
-                                    }
+                                    res
+                                        .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: httpOnly, domain: process.env.cookie_domains,})
+                                        .cookie('rs', VToken, {sameSite: "none", secure: true, httpOnly: httpOnly, domain: process.env.cookie_domains,})
+                                        .send([result[0].first_name, tokenpref])
                             })})}
 
                             //Grab prefrences if already created
                             else {
-                                if (err) { console.log(err)}
+                                if (err) { console.log(err); return}
 
                                 const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, process.env.cookie_secret)
-                                if(ua.device.model == 'iPhone'){
-                                    res
-                                        .cookie('ss', AuthToken, {sameSite: "none", secure: true, domain: process.env.cookie_domains,})
-                                        .cookie('rs', VToken, {sameSite: "none", secure: true, domain: process.env.cookie_domains,})
-                                        .send([result[0].first_name, tokenpref])
-                                }
-                                else {
-                                    res
-                                        .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true, domain: process.env.cookie_domains,})
-                                        .cookie('rs', VToken, {sameSite: "none", secure: true, domain: process.env.cookie_domains,})
-                                        .send([result[0].first_name, tokenpref])
-                                }
+                                res
+                                .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: httpOnly, domain: process.env.cookie_domains,})
+                                .cookie('rs', VToken, {sameSite: "none", secure: true, httpOnly: httpOnly, domain: process.env.cookie_domains,})
+                                .send([result[0].first_name, tokenpref])
                             }
                         })
                     }
@@ -116,42 +100,27 @@ router.post('/',
 
                                                     //Now regrab with newly created prefrences and send cookies like normal
                                                     db.query(findpref, result[0].user_id, (err, response) => {
-                                                        if (err) { console.log(err)}
+                                                        if (err) { console.log(err); return}
 
                                                         const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, process.env.cookie_secret)
-                                                        if(ua.device.model == 'iPhone'){
-                                                            res
-                                                                .cookie('ss', AuthToken, {sameSite: "none", secure: true, domain: process.env.cookie_domains,})
-                                                                .cookie('rs', VToken, {sameSite: "none", secure: true, domain: process.env.cookie_domains,})
-                                                                .send([result[0].first_name, tokenpref])
-                                                        }
-                                                        else {
-                                                            res
-                                                                .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true, domain: process.env.cookie_domains,})
-                                                                .cookie('rs', VToken, {sameSite: "none", secure: true, domain: process.env.cookie_domains,})
-                                                                .send([result[0].first_name, tokenpref])
-                                                        }
+                                                        res
+                                                        .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: httpOnly, domain: process.env.cookie_domains,})
+                                                        .cookie('rs', VToken, {sameSite: "none", secure: true, httpOnly: httpOnly, domain: process.env.cookie_domains,})
+                                                        .send([result[0].first_name, tokenpref])
                                                 })})}
 
                                                 //Grab prefrences if already created
                                                 else {
-                                                    if (err) { console.log(err)}
+                                                    if (err) { console.log(err); return}
 
                                                     const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, process.env.cookie_secret)
-                                                    if(ua.device.model == 'iPhone'){
-                                                        res
-                                                            .cookie('ss', AuthToken, {sameSite: "none", secure: true, domain: process.env.cookie_domains,})
-                                                            .cookie('rs', VToken, {sameSite: "none", secure: true, domain: process.env.cookie_domains,})
-                                                            .send([result[0].first_name, tokenpref])
-                                                    }
-                                                    else {
-                                                        res
-                                                            .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true, domain: process.env.cookie_domains,})
-                                                            .cookie('rs', VToken, {sameSite: "none", secure: true, domain: process.env.cookie_domains,})
-                                                            .send([result[0].first_name, tokenpref])
-                                                    }
+                                                    res
+                                                    .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: httpOnly, domain: process.env.cookie_domains,})
+                                                    .cookie('rs', VToken, {sameSite: "none", secure: true, httpOnly: httpOnly, domain: process.env.cookie_domains,})
+                                                    .send([result[0].first_name, tokenpref])
                                                 }
                                             })
+                                        
                                         }
                                     }
                                 )
@@ -193,10 +162,10 @@ router.post('/',
                                     db.query(findpref, result[0].user_id, (err, response) => {
                                         
                                         //Create if dont have
-                                        if (response.length <= 0) {db.query(constpref, user_id, (err, results) => {
+                                        if (response.length <= 0) {db.query(constpref, result[0].user_id, (err, results) => {
                     
                                             //Now regrab with newly created prefrences and send cookies like normal
-                                            db.query(findpref, user_id, (err, response) => {
+                                            db.query(findpref, result[0].user_id, (err, response) => {
                     
                                                 const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, process.env.cookie_secret)
                                                 if(ua.device.model == 'iPhone'){
