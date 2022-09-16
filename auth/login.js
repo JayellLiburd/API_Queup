@@ -39,6 +39,9 @@ router.post('/',
                     
                     // If already created then send results 
                     if (result.length > 0) { 
+                        const AuthToken = sign({ ssuid: result[0].user_id }, process.env.cookie_secret)
+                        const VToken = sign({ ssu: result[0].username }, process.env.cookie_secret)
+
                         //grabs prefrences
                         const findpref = "select * from prefrences where user_id = ?;"
                         db.query(findpref, result[0].user_id, (err, response) => {
@@ -48,8 +51,6 @@ router.post('/',
                             if (response.length <= 0) {db.query(constpref, result[0].user_id, (err, results) => {
 
                                 //Now regrab with newly created prefrences and send cookies like normal
-                                const AuthToken = sign({ ssuid: result[0].user_id }, process.env.cookie_secret)
-                                const VToken = sign({ ssu: result[0].username }, process.env.cookie_secret)
                                 db.query(findpref, result[0].user_id, (err, response) => {
                                     if (err) { console.log(err)}
 
@@ -107,13 +108,13 @@ router.post('/',
                                             const findpref = "select * from prefrences where user_id = ?;"
                                             db.query(findpref, result[0].user_id, (err, response) => {
 
+                                                const AuthToken = sign({ ssuid: result[0].user_id }, process.env.cookie_secret)
+                                                const VToken = sign({ ssu: result[0].username }, process.env.cookie_secret)
                                                 //Create if dont have
                                                 const constpref = "INSERT INTO prefrences (user_id) values (?);"
                                                 if (response.length <= 0) {db.query(constpref, result[0].user_id, (err, results) => {
 
                                                     //Now regrab with newly created prefrences and send cookies like normal
-                                                    const AuthToken = sign({ ssuid: result[0].user_id }, process.env.cookie_secret)
-                                                    const VToken = sign({ ssu: result[0].username }, process.env.cookie_secret)
                                                     db.query(findpref, result[0].user_id, (err, response) => {
                                                         if (err) { console.log(err)}
 
@@ -185,7 +186,6 @@ router.post('/',
                             if (response) {
                                 //If Username match then...
                                 if (result[0]) {  
-                    
                                     const AuthToken = sign({ ssuid: result[0].user_id }, process.env.cookie_secret)
                                     const VToken = sign({ ssu: result[0].username }, process.env.cookie_secret)
                     
