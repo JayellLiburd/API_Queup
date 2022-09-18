@@ -50,6 +50,7 @@ app.use(session({
 //Routes
 const homepage = require('./Pages/Home')
 const login = require('./auth/login')
+const cookies = require('./auth/logincookies');
 const logout = require('./auth/logout')
 const verifyuser = require('./auth/verify')
 const createUser = require('./auth/Register')
@@ -64,6 +65,9 @@ app.use('/reg', createUser)
 
 //verifying login
 app.use('/login', login)
+ 
+//if problem setting cookies store them in session
+app.use('/:id/set', cookies)
 
 //logout
 app.use('/logout', logout)
