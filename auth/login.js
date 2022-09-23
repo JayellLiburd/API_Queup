@@ -18,6 +18,11 @@ const db = mysql.createPool({
     ssl: {ca: fs.readFileSync("./DigiCertGlobalRootCA.crt.pem")}
 });
 
+
+var https = true
+var site = 'none'
+if (process.env.secure == 0) {https = false; site = false}
+
 // ---------------------------------- code begins here -------------------------------- //
 
 //Login with form
@@ -27,10 +32,6 @@ router.post('/',
         // LOOK FOR GGOGLE CREDENTIALS OTHERWISE SKIP TO NEXT FUNCTION
         if (!req.body.user) { next() }
         else {
-            var ua = parser(req.headers['user-agent'])
-            var httpOnly = true
-            if(ua.device.model == 'iPhone' || 'iPad') {var httpOnly = false}
-
             const user = decode(req.body.user)
 
             // See if google account is alreaddy created
@@ -58,9 +59,9 @@ router.post('/',
                                     const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, process.env.cookie_secret)
                                     console.log(httpOnly)
                                     res
-                                        .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true, domain: process.env.cookie_domains,})
-                                        .cookie('rs', VToken, {sameSite: "none", secure: true, httpOnly: true, domain: process.env.cookie_domains,})
-                                        .send(httpOnly == false? {credential: AuthToken} : [result[0].first_name, tokenpref] )
+                                        .cookie('ss', AuthToken, {sameSite: site, secure: https, httpOnly: https, domain: process.env.cookie_domains,})
+                                        .cookie('rs', VToken, {sameSite: site, secure: https, httpOnly: https, domain: process.env.cookie_domains,})
+                                        .send([result[0].first_name, tokenpref])
                             })})}
 
                             //Grab prefrences if already created
@@ -69,9 +70,9 @@ router.post('/',
 
                                 const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, process.env.cookie_secret)
                                 res
-                                .cookie('ss', AuthToken, {sameSite: "none", secure: true, domain: process.env.cookie_domains,})
-                                .cookie('rs', VToken, {sameSite: "none", secure: true, domain: process.env.cookie_domains,})
-                                .send(httpOnly == false? {credential: AuthToken} : [result[0].first_name, tokenpref] )
+                                .cookie('ss', AuthToken, {sameSite: site, secure: https, domain: process.env.cookie_domains,})
+                                .cookie('rs', VToken, {sameSite: site, secure: https, domain: process.env.cookie_domains,})
+                                .send([result[0].first_name, tokenpref])
                             }
                         })
                     }
@@ -105,9 +106,9 @@ router.post('/',
                                                         if (err) { console.log(err); return}
                                                         const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, process.env.cookie_secret)
                                                         res
-                                                        .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true, domain: process.env.cookie_domains,})
-                                                        .cookie('rs', VToken, {sameSite: "none", secure: true, httpOnly: true, domain: process.env.cookie_domains,})
-                                                        .send(httpOnly == false? {credential: AuthToken} : [result[0].first_name, tokenpref] )
+                                                        .cookie('ss', AuthToken, {sameSite: site, secure: https, httpOnly: https, domain: process.env.cookie_domains,})
+                                                        .cookie('rs', VToken, {sameSite: site, secure: https, httpOnly: https, domain: process.env.cookie_domains,})
+                                                        .send([result[0].first_name, tokenpref])
                                                 })})}
 
                                                 //Grab prefrences if already created
@@ -115,9 +116,9 @@ router.post('/',
                                                     if (err) { console.log(err); return}
                                                     const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, process.env.cookie_secret)
                                                     res
-                                                    .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true, domain: process.env.cookie_domains,})
-                                                    .cookie('rs', VToken, {sameSite: "none", secure: true, httpOnly: true, domain: process.env.cookie_domains,})
-                                                    .send(httpOnly == false? {credential: AuthToken} : [result[0].first_name, tokenpref] )
+                                                    .cookie('ss', AuthToken, {sameSite: site, secure: https, httpOnly: https, domain: process.env.cookie_domains,})
+                                                    .cookie('rs', VToken, {sameSite: site, secure: https, httpOnly: https, domain: process.env.cookie_domains,})
+                                                    .send([result[0].first_name, tokenpref])
                                                 }
                                             })
                                         
@@ -131,12 +132,10 @@ router.post('/',
             )
         }
     },
+
+
     // Standard Login via Queup Username & Password
     (req, res) => {
-
-        var ua = parser(req.headers['user-agent'])
-        var httpOnly = true
-        if(ua.device.model == 'iPhone' || 'iPad') {var httpOnly = false}
 
         const username = req.body.username
         const password = req.body.password
@@ -159,11 +158,10 @@ router.post('/',
                                 if (result[0]) {  
                                     const AuthToken = sign({ ssuid: result[0].user_id }, process.env.cookie_secret)
                                     const VToken = sign({ ssu: result[0].username }, process.env.cookie_secret)
-                                    const AuthToken2 = sign({ ssuid: result[0].user_id, puid: password }, process.env.cookie_secret)
                     
                                     //grabs prefrences
                                     db.query(findpref, result[0].user_id, (err, response) => {
-                                        
+                                        console.log(https)
                                         //Create if dont have
                                         if (response.length <= 0) {db.query(constpref, result[0].user_id, (err, results) => {
                     
@@ -173,9 +171,9 @@ router.post('/',
                                                 if (err) { console.log(err); return}
                                                 const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, process.env.cookie_secret)
                                                 res
-                                                .cookie('ss', AuthToken, {sameSite: "none", secure: true, httpOnly: true, domain: process.env.cookie_domains,})
-                                                .cookie('rs', VToken, {sameSite: "none", secure: true, httpOnly: true, domain: process.env.cookie_domains,})
-                                                .send(httpOnly == false? {credential: AuthToken2} : [result[0].first_name, tokenpref] )         
+                                                .cookie('ss', AuthToken, {sameSite: site, secure: https, httpOnly: true, domain: process.env.cookie_domains})
+                                                .cookie('rs', VToken, {sameSite: site, secure: https, httpOnly: true, domain: process.env.cookie_domains})
+                                                .send([result[0].first_name, tokenpref])         
                                         })})}
                     
                                         //Grab prefrences if already created
@@ -183,9 +181,9 @@ router.post('/',
                                             if (err) { console.log(err); return}
                                             const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, process.env.cookie_secret)
                                             res
-                                            .cookie('ss', AuthToken, {sameSite: "none", secure: true, domain: process.env.cookie_domains,})
-                                            .cookie('rs', VToken, {sameSite: "none", secure: true, domain: process.env.cookie_domains,})
-                                            .send(httpOnly == false? {credential: AuthToken2} : [result[0].first_name, tokenpref] )
+                                            .cookie('ss', AuthToken, {sameSite: site, secure: https, httpOnly: true, domain: process.env.cookie_domains})
+                                            .cookie('rs', VToken, {sameSite: site, secure: https, httpOnly: true, domain: process.env.cookie_domains})
+                                            .send([result[0].first_name, tokenpref])
                                         }
                                     })
                                 }
