@@ -18,6 +18,11 @@ const db = mysql.createPool({
     ssl: {ca: fs.readFileSync("./DigiCertGlobalRootCA.crt.pem")}
 });
 
+
+var https = true
+var site = 'none'
+if (process.env.secure == 0) {https = false; site = false}
+
 // ---------------------------------- code begins here -------------------------------- //
 
 //Login with form
@@ -27,11 +32,14 @@ router.post('/',
         // LOOK FOR GGOGLE CREDENTIALS OTHERWISE SKIP TO NEXT FUNCTION
         if (!req.body.user) { next() }
         else {
+<<<<<<< HEAD
             var ua = parser(req.headers['user-agent'])
             var https = true
             if(ua.device.model == 'iPhone' || 'iPad') {var https = false}
             console.log(https)
 
+=======
+>>>>>>> 5e6210c5fa56f9a205af126473242458c15c4e29
             const user = decode(req.body.user)
 
             // See if google account is alreaddy created
@@ -59,8 +67,13 @@ router.post('/',
                                     const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, process.env.cookie_secret)
                                     console.log(httpOnly)
                                     res
+<<<<<<< HEAD
                                         .cookie('ss', AuthToken, {sameSite: "none", secure: https, httpOnly: https, domain: process.env.cookie_domains,})
                                         .cookie('rs', VToken, {sameSite: "none", secure: https, httpOnly: https, domain: process.env.cookie_domains,})
+=======
+                                        .cookie('_ss', AuthToken, {sameSite: site, secure: https, httpOnly: https, domain: process.env.cookie_domains, maxAge: 1000*60*60*24*30, signed: true})
+                                        .cookie('_Secure1PSSUD', VToken, {sameSite: site, secure: https, httpOnly: https, domain: process.env.cookie_domains, maxAge: 1000*60*60*3, signed: true})
+>>>>>>> 5e6210c5fa56f9a205af126473242458c15c4e29
                                         .send([result[0].first_name, tokenpref])
                             })})}
 
@@ -70,8 +83,13 @@ router.post('/',
 
                                 const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, process.env.cookie_secret)
                                 res
+<<<<<<< HEAD
                                 .cookie('ss', AuthToken, {sameSite: "none", secure: https, domain: process.env.cookie_domains,})
                                 .cookie('rs', VToken, {sameSite: "none", secure: https, domain: process.env.cookie_domains,})
+=======
+                                .cookie('_ss', AuthToken, {sameSite: site, secure: https, httpOnly: https, domain: process.env.cookie_domains, maxAge: 1000*60*60*24*30, signed: true})
+                                .cookie('_Secure1PSSUD', VToken, {sameSite: site, secure: https, httpOnly: https, domain: process.env.cookie_domains, maxAge: 1000*60*60*3, signed: true})
+>>>>>>> 5e6210c5fa56f9a205af126473242458c15c4e29
                                 .send([result[0].first_name, tokenpref])
                             }
                         })
@@ -106,8 +124,13 @@ router.post('/',
                                                         if (err) { console.log(err); return}
                                                         const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, process.env.cookie_secret)
                                                         res
+<<<<<<< HEAD
                                                         .cookie('ss', AuthToken, {sameSite: "none", secure: https, httpOnly: https, domain: process.env.cookie_domains,})
                                                         .cookie('rs', VToken, {sameSite: "none", secure: https, httpOnly: https, domain: process.env.cookie_domains,})
+=======
+                                                        .cookie('_ss', AuthToken, {sameSite: site, secure: https, httpOnly: https, domain: process.env.cookie_domains, maxAge: 1000*60*60*24*30, signed: true})
+                                                        .cookie('_Secure1PSSUD', VToken, {sameSite: site, secure: https, httpOnly: https, domain: process.env.cookie_domains, maxAge: 1000*60*60*3, signed: true})
+>>>>>>> 5e6210c5fa56f9a205af126473242458c15c4e29
                                                         .send([result[0].first_name, tokenpref])
                                                 })})}
 
@@ -116,8 +139,13 @@ router.post('/',
                                                     if (err) { console.log(err); return}
                                                     const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, process.env.cookie_secret)
                                                     res
+<<<<<<< HEAD
                                                     .cookie('ss', AuthToken, {sameSite: "none", secure: https, httpOnly: https, domain: process.env.cookie_domains,})
                                                     .cookie('rs', VToken, {sameSite: "none", secure: https, httpOnly: https, domain: process.env.cookie_domains,})
+=======
+                                                    .cookie('_ss', AuthToken, {sameSite: site, secure: https, httpOnly: https, domain: process.env.cookie_domains, maxAge: 1000*60*60*24*30, signed: true})
+                                                    .cookie('_Secure1PSSUD', VToken, {sameSite: site, secure: https, httpOnly: https, domain: process.env.cookie_domains, maxAge: 1000*60*60*3, signed: true})
+>>>>>>> 5e6210c5fa56f9a205af126473242458c15c4e29
                                                     .send([result[0].first_name, tokenpref])
                                                 }
                                             })
@@ -132,14 +160,20 @@ router.post('/',
             )
         }
     },
+
+
     // Standard Login via Queup Username & Password
     (req, res) => {
+<<<<<<< HEAD
 
         var ua = parser(req.headers['user-agent'])
         var https = true
         if(ua.device.model == 'iPhone' || 'iPad') {var https = false}
 
         console.log(https)
+=======
+        
+>>>>>>> 5e6210c5fa56f9a205af126473242458c15c4e29
         const username = req.body.username
         const password = req.body.password
         
@@ -164,7 +198,7 @@ router.post('/',
                     
                                     //grabs prefrences
                                     db.query(findpref, result[0].user_id, (err, response) => {
-                                        
+                                        console.log(https)
                                         //Create if dont have
                                         if (response.length <= 0) {db.query(constpref, result[0].user_id, (err, results) => {
                     
@@ -174,8 +208,13 @@ router.post('/',
                                                 if (err) { console.log(err); return}
                                                 const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, process.env.cookie_secret)
                                                 res
+<<<<<<< HEAD
                                                 .cookie('ss', AuthToken, {sameSite: "none", secure: https, httpOnly: https, domain: process.env.cookie_domains,})
                                                 .cookie('rs', VToken, {sameSite: "none", secure: https, httpOnly: https, domain: process.env.cookie_domains,})
+=======
+                                                .cookie('_ss', AuthToken, {sameSite: site, secure: https, httpOnly: https, domain: process.env.cookie_domains, maxAge: 1000*60*60*24*30, signed: true})
+                                                .cookie('_Secure1PSSUD', VToken, {sameSite: site, secure: https, httpOnly: https, domain: process.env.cookie_domains, maxAge: 1000*60*60*3, signed: true})
+>>>>>>> 5e6210c5fa56f9a205af126473242458c15c4e29
                                                 .send([result[0].first_name, tokenpref])         
                                         })})}
                     
@@ -184,8 +223,13 @@ router.post('/',
                                             if (err) { console.log(err); return}
                                             const tokenpref = sign({dark: response[0].dark, weather: response[0].weather, favorites: response[0].favorites}, process.env.cookie_secret)
                                             res
+<<<<<<< HEAD
                                             .cookie('ss', AuthToken, {sameSite: "none", secure: https, httpOnly: https, domain: process.env.cookie_domains,})
                                             .cookie('rs', VToken, {sameSite: "none", secure: https, domain: process.env.cookie_domains,})
+=======
+                                            .cookie('_ss', AuthToken, {sameSite: site, secure: https, httpOnly: https, domain: process.env.cookie_domains, maxAge: 1000*60*60*24*30, signed: true})
+                                            .cookie('_Secure1PSSUD', VToken, {sameSite: site, secure: https, httpOnly: https, domain: process.env.cookie_domains, maxAge: 1000*60*60*3, signed: true})
+>>>>>>> 5e6210c5fa56f9a205af126473242458c15c4e29
                                             .send([result[0].first_name, tokenpref])
                                         }
                                     })

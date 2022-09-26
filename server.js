@@ -32,7 +32,7 @@ app.use(cors({
     credentials: true,
     exposedHeaders: ["set-cookie", 'cookie'],
 }))
-app.use(cookieParser())
+app.use(cookieParser(process.env.cookie_secret))
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}))
@@ -50,25 +50,21 @@ app.use(session({
 //Routes
 const homepage = require('./Pages/Home')
 const login = require('./auth/login')
-const cookies = require('./auth/logincookies');
 const logout = require('./auth/logout')
 const verifyuser = require('./auth/verify')
 const createUser = require('./auth/Register')
-const createBus = require('./Create/Create')
+const createBus = require('./Create/Create');
 
 
 //Home page
 app.use('/', homepage)
 
-//Create User
+//Create or Regulate Users
 app.use('/reg', createUser)
 
 //verifying login
 app.use('/login', login)
  
-//if problem setting cookies store them in session
-app.use('/:id/set', cookies)
-
 //logout
 app.use('/logout', logout)
 
@@ -77,25 +73,6 @@ app.use('/verify', verifyuser)
 
 //verify simple and get profile
 app.use('/createque', createBus)
-
-app.post('/auth/:id/profile', (req, res) => {
-
-    user_id = req.params.id
-    const {first_name, last_name, email, address, phone} = req.body
-
-    finduser = "select * from users where user_id = ?;"
-    db.query(finduser, user_id,
-        (err, result) => {
-
-            if (err) { res.send({err: err}) }
-
-            if (result.length > 0) {
-                updates = "UPDATE users SET first_name = ?, last_name = ?, email = ?, address_1 = ?, phone = ?, last_update = CURRENT_TIMESTAMP() WHERE (user_id = ?);"
-                db.query(updates, [first_name, last_name, email, address, phone, user_id])
-                res.send('updated')
-            }
-    })
-})
 
 
 app.listen( port, () => { console.log('Running on port' + port )});

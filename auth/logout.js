@@ -6,10 +6,10 @@ require('dotenv').config()
 
 
 router.get('/', (req, res) => {
-    req.cookies
+    req.signedCookies
     res
-        .clearCookie('ss', {domain: process.env.cookie_domains, path: '/'})
-        .clearCookie('rs', {domain: process.env.cookie_domains, path: '/'})
+        .clearCookie('_ss', {domain: process.env.cookie_domains, path: '/'})
+        .clearCookie('_Secure1PSSUD', {domain: process.env.cookie_domains, path: '/'})
         .send({message: 'No Auth'})
 })
 

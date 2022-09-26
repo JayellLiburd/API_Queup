@@ -21,7 +21,7 @@ const upload = multer({
 })
 
 const {Storage} = require('@google-cloud/storage');
-const { verify, decode } = require('jsonwebtoken')
+const { verify } = require('jsonwebtoken')
 const storage = new Storage({
   projectId: 'queup-358912',
   keyFilename: './create/serviceKey.json'
@@ -33,12 +33,12 @@ const bucket = storage.bucket('queup-images') // should be your bucket name
 
 // Route takes in Form Data from Create Queue Form
 router.post('/', upload.single('img'), (req, res) => {
-  if (!req.cookies.ss) res.send({message: 'No longer Authorized'})
+  if (!req.signedCookies._ss) res.send({message: 'No longer Authorized'})
   else {
     const {name, address, address2, city, zipcode ,state, country, small, rate, category, raffle, promo, host} = req.body
     
     //verify if cookie is legitiment or else break code
-    try {var user = verify(req.cookies.ss, process.env.cookie_secret)} catch (error) {res.send({message: 'Technical Error'}); console.log(error); return}
+    try {var user = verify(req.signedCookies._ss, process.env.cookie_secret)} catch (error) {res.send({message: 'Technical Error'}); console.log(error); return}
 
     // Fuction to inset NEW Business data into MySQL Database Azure
     const sqlInsert = "INSERT INTO businesses (user_id, line_id, bus_name, address_1, address_2, city, zip_code, state, country, small, rate, category, raffle, promo, host, last_update, created) VALUES (?, (replace(uuid(),'-','')), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());"
