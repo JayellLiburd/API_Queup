@@ -6,6 +6,7 @@ require('dotenv').config()
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+const { verify } = require('jsonwebtoken')
 
 //connecting to db
 const db = mysql.createPool({
@@ -38,6 +39,25 @@ router.post('/', (req, res) => {
         catch (err) { console.log(err) }
     })
     
+})
+
+router.post('/profile', (req, res) => {
+
+    if (!req.signedCookies._ss) {res.send({ message: 'No Auth' }); return}
+
+    try {var user = verify(req.signedCookies._ss, process.env.cookie_secret)} catch (error) {
+        res
+        .clearCookie('_ss', {domain: process.env.cookie_domains, path: '/'})
+        .clearCookie('_Secure1PSSUD', {domain: process.env.cookie_domains, path: '/'})
+        .send({message: 'Technical Error'}); console.log(error); return
+    }
+
+    const {first_name, last_name, email, address, phone} = req.body
+    updates = "UPDATE users SET first_name = ?, last_name = ?, email = ?, address_1 = ?, phone = ?, last_update = CURRENT_TIMESTAMP() WHERE (user_id = ?);"
+    db.query(updates, [first_name, last_name, email, address, phone, user.ssuid], (err, results) => {
+        if (err) {res.send({message: 'Technical Error'}); console.log(err); return}
+        else {res.send('updated')}
+    })
 })
 
 

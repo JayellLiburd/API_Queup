@@ -22,14 +22,15 @@ const db = mysql.createPool({
 
 // verify with cookies
 router.get('/', (req, res) => {
-    if (!req.cookies.rs) {
+    if (!req.signedCookies._ss) {
         res.send({ message: 'No Auth' })}
     else {
-        try {var Token = verify(req.cookies.ss, process.env.cookie_secret)} catch (error) {
+        try {var Token = verify(req.signedCookies._ss, process.env.cookie_secret)} catch (error) {
             res
-            .clearCookie('ss', {domain: process.env.cookie_domains, path: '/'})
-            .clearCookie('rs', {domain: process.env.cookie_domains, path: '/'})
+            .clearCookie('_ss', {domain: process.env.cookie_domains, path: '/'})
+            .clearCookie('_Secure1PSSUD', {domain: process.env.cookie_domains, path: '/'})
             .send({message: 'Technical Error'}); console.log(error); return}
+
         try {
             finduser = "select * from users where user_id = ?;"
             db.query(finduser, Token.ssuid,
@@ -39,8 +40,8 @@ router.get('/', (req, res) => {
                         if (results[0]) {res.send([{username: results[0].username, name: results[0].first_name}])}
                         else {
                             res
-                            .clearCookie('ss', {domain: process.env.cookie_domains, path: '/'})
-                            .clearCookie('rs', {domain: process.env.cookie_domains, path: '/'})
+                            .clearCookie('_ss', {domain: process.env.cookie_domains, path: '/'})
+                            .clearCookie('_Secure1PSSUD', {domain: process.env.cookie_domains, path: '/'})
                             .send({message: 'Technical Error'})
                             console.log(err);
                         }
@@ -51,8 +52,8 @@ router.get('/', (req, res) => {
         catch (err) {
             console.log(err); 
             res
-            .clearCookie('ss', {domain: process.env.cookie_domains, path: '/'})
-            .clearCookie('rs', {domain: process.env.cookie_domains, path: '/'})
+            .clearCookie('_ss', {domain: process.env.cookie_domains, path: '/'})
+            .clearCookie('_Secure1PSSUD', {domain: process.env.cookie_domains, path: '/'})
             .send({ message: 'No Auth' }) }
     }
 })
@@ -79,28 +80,27 @@ router.post('/', (req, res) => {
 })
 
 router.get('/pro', (req, res) => {
-    if (!req.cookies.ss) {
-        res.send({ message: 'No Auth' })}
+    if (!req.signedCookies._Secure1PSSUD) {
+        res
+        .clearCookie('_ss', {domain: process.env.cookie_domains, path: '/'})
+        .clearCookie('_Secure1PSSUD', {domain: process.env.cookie_domains, path: '/'})
+        .send({ message: 'No Auth' })
+    }
 
     else {
-       if (req.cookies.ss) {
+       if (req.signedCookies._Secure1PSSUD) {
 
-           try {
-            try {var Token = verify(req.cookies.ss, process.env.cookie_secret)} catch (error) {res.send({message: 'Technical Error'}); console.log(error); return}
+        try {var Token = verify(req.signedCookies._ss, process.env.cookie_secret)} catch (error) {res.send({message: 'Technical Error'}); console.log(error); return}
+        
+        finduser = "select address_1, address_2, city, counrty, email, first_name, last_name, phone, sex, state, username, verified, zip_code from users where user_id = ?;"
+        db.query(finduser, Token.ssuid,
             
-            finduser = "select * from users where user_id = ?;"
-            db.query(finduser, Token.ssuid,
-                
-                (err, results) => {
-                
-                    if (err) { 
-                        res.send({ message: 'No Auth' })
-                    }
-                    else {res.send(results)}
-                }
-            )}
-            catch (error) {res.send({ message: 'No Auth' })}
-        }
+            (err, results) => {
+            
+                if (err) { res.send({ message: 'No Auth' }) }
+                else { res.send(results) }
+            }
+        )}
     }
 })
 
