@@ -161,7 +161,7 @@ router.post('/',
                     
                                     //grabs prefrences
                                     db.query(findpref, result[0].user_id, (err, response) => {
-                                        console.log(https)
+
                                         //Create if dont have
                                         if (response.length <= 0) {db.query(constpref, result[0].user_id, (err, results) => {
                     
