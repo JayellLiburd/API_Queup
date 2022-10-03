@@ -22,8 +22,7 @@ const db = mysql.createPool({
 
 // verify with cookies
 router.get('/', (req, res) => {
-    if (!req.signedCookies._ss) {
-        res.send({ message: 'No Auth' })}
+    if (!req.signedCookies._ss) {res.status(401).send({message: 'Not Authorized'}); return}
     else {
         try {var Token = verify(req.signedCookies._ss, process.env.cookie_secret)} catch (error) {
             res
@@ -79,6 +78,7 @@ router.post('/', (req, res) => {
     }
 })
 
+//Get Profile Info
 router.get('/pro', (req, res) => {
     if (!req.signedCookies._Secure1PSSUD) {
         res

@@ -53,7 +53,9 @@ const login = require('./auth/login')
 const logout = require('./auth/logout')
 const verifyuser = require('./auth/verify')
 const createUser = require('./auth/Register')
-const createBus = require('./Create/Create');
+const createBus = require('./Create/Create')
+const addemployee = require('./auth/Roster');
+const MyQueues = require('./queue/myqueue');
 
 
 //Home page
@@ -74,5 +76,10 @@ app.use('/verify', verifyuser)
 //verify simple and get profile
 app.use('/createque', createBus)
 
+//Adding Employee into they're specific Queue
+app.use('/addemployee', addemployee)
+
+//verify simple and get profile
+app.use('/MyQueues', MyQueues)
 
 app.listen( port, () => { console.log('Running on port' + port )});

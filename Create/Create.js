@@ -33,7 +33,7 @@ const bucket = storage.bucket('queup-images') // should be your bucket name
 
 // Route takes in Form Data from Create Queue Form
 router.post('/', upload.single('img'), (req, res) => {
-  if (!req.signedCookies._ss) res.send({message: 'No longer Authorized'})
+  if (!req.signedCookies._ss) {res.status(401).send({message: 'Not Authorized'}); return}
   else {
     const {name, address, address2, city, zipcode ,state, country, small, rate, category, raffle, promo, host} = req.body
     
@@ -55,8 +55,8 @@ router.post('/', upload.single('img'), (req, res) => {
               let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d)
               let date = mo+da+ye
 
-              var file_name_array = file.originalname.split(".")
-              var newFileName = file_name_array[0] + '-' + date +'.'+ file.mimetype.split('/').reverse()[0]
+              const userid = user.ssuid
+              var newFileName =  userid + '-' + date +'.'+ file.mimetype.split('/').reverse()[0]
               
               const blob = bucket.file(newFileName)
               const blobStream = blob.createWriteStream({
@@ -66,7 +66,7 @@ router.post('/', upload.single('img'), (req, res) => {
               // This is the Main File upload to cloud function. Once Fininished and no errors send promise back to client
               blobStream
                 .on('finish', () => {
-                  res.send('success')
+                  res.send({messageSuccess: 'success'})
                 })
                 .on('error', (error) => {
                   console.log(error)

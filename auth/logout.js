@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
     res
         .clearCookie('_ss', {domain: process.env.cookie_domains, path: '/'})
         .clearCookie('_Secure1PSSUD', {domain: process.env.cookie_domains, path: '/'})
-        .send({message: 'No Auth'})
+        .status(401).send({message: 'No Longer Authorized'})
 })
 
 
