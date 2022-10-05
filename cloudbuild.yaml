@@ -1,5 +1,5 @@
 steps:
-  - name: node
+  - name: node:16
     entrypoint: npm
     args: ['install']
   - name: node
@@ -14,6 +14,4 @@ steps:
     - cookie_domains = ".queueupnext.com"
     - cookie_secret = '15HPV7#hMoSL7vqPBOmuAHdObHMTFlSD8EMK&VvcwiFBT*1OJk'
     - secure = 1
-    args: ['run', 'create-app-yaml']
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['app', 'deploy']
+    args: ['test']
