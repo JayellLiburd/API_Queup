@@ -33,7 +33,7 @@ const bucket = storage.bucket('queup-images') // should be your bucket name
 
 // Route takes in Form Data from Create Queue Form
 router.post('/', upload.single('img'), (req, res) => {
-  if (!req.signedCookies._ss) {res.status(401).send({message: 'Not Authorized'}); return}
+  if (!req.signedCookies._ss) {res.status(401).send({messageAuth: 'Not Authorized'}); return}
   else {
     const {name, address, address2, city, zipcode ,state, country, small, rate, category, raffle, promo, host} = req.body
     

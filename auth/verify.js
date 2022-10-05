@@ -22,13 +22,13 @@ const db = mysql.createPool({
 
 // verify with cookies
 router.get('/', (req, res) => {
-    if (!req.signedCookies._ss) {res.status(401).send({message: 'Not Authorized'}); return}
+    if (!req.signedCookies._ss) {res.status(200).send({messageAuth: 'Not Authorized'}); return}
     else {
         try {var Token = verify(req.signedCookies._ss, process.env.cookie_secret)} catch (error) {
             res
             .clearCookie('_ss', {domain: process.env.cookie_domains, path: '/'})
             .clearCookie('_Secure1PSSUD', {domain: process.env.cookie_domains, path: '/'})
-            .send({message: 'Technical Error'}); console.log(error); return}
+            .status(401).send({messageAuth: 'Not Authorized'}); console.log(error); return}
 
         try {
             finduser = "select * from users where user_id = ?;"

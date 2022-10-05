@@ -21,7 +21,7 @@ const db = mysql.createPool({
 router.get('/', 
     (req, res, next) => {
 
-        if (!req.signedCookies._ss) {res.status(401).send({message: 'Not Authorized'}); return}
+        if (!req.signedCookies._ss) {res.status(200).send({messageAuth: 'Not Authorized'}); return}
         try {var Token = verify(req.signedCookies._ss, process.env.cookie_secret)} catch (error) {
             res
             .clearCookie('_ss', {domain: process.env.cookie_domains, path: '/'})
@@ -35,6 +35,36 @@ router.get('/',
                 res.status(200).send(results)
             }
         })
+    }   
+);
+
+router.get('/:id/Queue', 
+    (req, res, next) => {
+
+        if (!req.signedCookies._ss) {res.status(401).send({messageAuth: 'Not Authorized'}); return}
+
+        try {var Token = verify(req.signedCookies._ss, process.env.cookie_secret)} catch (error) {
+            res
+            .clearCookie('_ss', {domain: process.env.cookie_domains, path: '/'})
+            .clearCookie('_Secure1PSSUD', {domain: process.env.cookie_domains, path: '/'})
+            .send({message: 'Technical Error'}); console.log(error);
+            return}
+
+        const getMyQueue = 'select * from businesses where line_id = ?'
+        db.query(getMyQueue, req.originalUrl.split('/')[2], (err, results) => {
+            if (err) {console.log(err); res.status(501).send({ messageError: 'Technical Error'}); return}
+            else {
+                const getEmployees = 'select name, idemployee, role from roster where line_id = ?;'
+                db.query(getEmployees, req.originalUrl.split('/')[2], (err, results2) => {
+                    if (err) {console.log(err); res.status(501).send({ messageError: 'Technical Error'}); return}
+                    else {
+                        res.status(200).send({results, results2})
+                    }
+                })
+            }
+        })
+
+        
     }   
 );
 

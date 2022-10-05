@@ -22,8 +22,10 @@ const db = mysql.createPool({
 
 router.post('/', 
     (req, res, next) => {
-        if (!req.signedCookies._ss) {res.status(401).send({message: 'Not Authorized'}); return}
-        const { idemployee, name, role, line_id } = req.body
+
+
+        if (!req.signedCookies._ss) {res.status(401).send({messageAuth: 'Not Authorized'}); return}
+        const { employeeID, name, role, line_id } = req.body
 
         try {var Token = verify(req.signedCookies._ss, process.env.cookie_secret)} catch (error) {
             res
@@ -32,20 +34,15 @@ router.post('/',
             .send({message: 'Technical Error'}); console.log(error);
             return}
 
-        const addEmployee = 'Insert into roster (idemployee, line_id, name, role) Values (?, ?, ?, ?)'
-        db.query(addEmployee, [ idemployee, line_id, name, role ], (err, results) => {
+        const addEmployee = "Insert into roster (idemployee, line_id, name, role, database_id) Values (?, ?, ?, ?, (replace(uuid(),'-','')) )"
+        db.query(addEmployee, [ employeeID, line_id, name, role ], (err, results) => {
             if (err) {console.log(err); res.status(501).send({ messageError: 'Technical Error'}); return}
             else {
-                res.status(201).send({created: {name, idemployee}})
+                res.status(201).send([{name: name, employeeID: employeeID}])
             }
         })
     }   
 );
 
-router.post('/roster', 
-    (req, res, next) => {
-
-    }   
-);
 
 module.exports = router

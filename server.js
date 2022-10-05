@@ -79,7 +79,7 @@ app.use('/createque', createBus)
 //Adding Employee into they're specific Queue
 app.use('/addemployee', addemployee)
 
-//verify simple and get profile
+//List Of Created Queues
 app.use('/MyQueues', MyQueues)
 
 app.listen( port, () => { console.log('Running on port' + port )});
