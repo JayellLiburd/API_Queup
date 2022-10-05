@@ -24,7 +24,7 @@ const {Storage} = require('@google-cloud/storage');
 const { verify } = require('jsonwebtoken')
 const storage = new Storage({
   projectId: 'queup-358912',
-  keyFilename: './create/serviceKey.json'
+  keyFilename: './serviceKey.json'
 })
 const bucket = storage.bucket('queup-images') // should be your bucket name
 
