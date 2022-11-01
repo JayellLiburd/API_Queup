@@ -36,7 +36,7 @@ router.get('/', (req, res) => {
                 (err, results) => {
                     if (err) { res.send({ message: 'No Auth' }); console.log(err)}
                     else {
-                        if (results[0]) {res.send([{username: results[0].username, name: results[0].first_name}])}
+                        if (results[0]) {res.send([{username: results[0].username, name: results[0].first_name, busfav: results[0].bus_favorites, standardfav: results[0].standard_fav}])}
                         else {
                             res
                             .clearCookie('_ss', {domain: process.env.cookie_domains, path: '/'})

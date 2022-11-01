@@ -4,7 +4,7 @@ const mysql = require('mysql')
 const router = express.Router();
 require('dotenv').config()
 
-const { verify } = require('jsonwebtoken')
+const { verify, sign, decode } = require('jsonwebtoken')
 
 //connecting to db
 const db = mysql.createPool({
@@ -67,5 +67,32 @@ router.get('/:id/Queue',
         
     }   
 );
+
+router.post('/favorite', (req, res) => {
+    if(req.body) {
+        try {var Token = verify(req.signedCookies._ss, process.env.cookie_secret)} catch (error) {
+            res
+            .clearCookie('_ss', {domain: process.env.cookie_domains, path: '/'})
+            .clearCookie('_Secure1PSSUD', {domain: process.env.cookie_domains, path: '/'})
+            .send({message: 'Technical Error'}); console.log(error);
+            return}
+        db.query('select bus_favorites from users where user_id = ?', Token.ssuid, (err, results) => {
+            if (err) {console.log(err); res.status(501).send({ messageError: 'Technical Error'}); return}
+            else {
+                const item = Object.keys(req.body)[0]
+                const favorites = decode(results[0].bus_favorites)
+                favorites.favorites[item] = req.body[item]
+                let updatedFavorites = sign(favorites, process.env.cookie_secret)
+                db.query('update users set bus_favorites = ? where (user_id) = ?', [updatedFavorites, Token.ssuid], (err, results) => {
+                    if (err) {console.log(err); res.status(501).send({ messageError: 'Technical Error'}); return}
+                    else {
+                        res.status(200).send({results})
+                    }
+                })
+            }
+        })
+    } else res.status(501).send({ messageError: 'Technical Error'}); return
+})
+
 
 module.exports = router
