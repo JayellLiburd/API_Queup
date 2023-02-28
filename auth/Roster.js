@@ -1,21 +1,10 @@
 const express = require('express')
-const fs = require('fs');
-const mysql = require('mysql')
 const router = express.Router();
 require('dotenv').config()
 
-const parser = require('ua-parser-js');
 const { verify } = require('jsonwebtoken');
+const {database} = require('../lib/index');
 
-//connecting to db
-const db = mysql.createPool({
-    host: process.env.db_host,
-    user: process.env.db_user,
-    password: process.env.db_password,
-    database: process.env.db_database,
-    port: process.env.db_port,
-    ssl: {ca: fs.readFileSync("./DigiCertGlobalRootCA.crt.pem")}
-});
 
 
 // ---------------------------------- code begins here -------------------------------- //
@@ -35,7 +24,7 @@ router.post('/',
             return}
 
         const addEmployee = "Insert into roster (idemployee, line_id, name, role, database_id) Values (?, ?, ?, ?, (replace(uuid(),'-','')) )"
-        db.query(addEmployee, [ employeeID, line_id, name, role ], (err, results) => {
+        database.query(addEmployee, [ employeeID, line_id, name, role ], (err, results) => {
             if (err) {console.log(err); res.status(501).send({ messageError: 'Technical Error'}); return}
             else {
                 res.status(201).send([{name: name, employeeID: employeeID}])

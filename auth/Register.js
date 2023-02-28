@@ -1,6 +1,4 @@
 const express = require('express')
-const fs = require('fs');
-const mysql = require('mysql')
 const router = express.Router();
 require('dotenv').config()
 
@@ -9,19 +7,12 @@ const saltRounds = 10;
 const { verify } = require('jsonwebtoken')
 
 //connecting to db
-const db = mysql.createPool({
-    host: process.env.db_host,
-    user: process.env.db_user,
-    password: process.env.db_password,
-    database: process.env.db_database,
-    port: process.env.db_port,
-    ssl:{ca: fs.readFileSync("./DigiCertGlobalRootCA.crt.pem")}
-});
+const {database} = require('../lib/index');
 
 
 // ---------------------------------- code begins here -------------------------------- //
 
-
+//TODO: fix registration form
 //Register User
 router.post('/', (req, res) => {
     const first_name  = req.body.first_name
@@ -31,16 +22,16 @@ router.post('/', (req, res) => {
     const password = req.body.password
 
     let finduser = "select * from users where username = ?;"
-    db.query(finduser, username, (err, results) => { 
+    database.query(finduser, username, (err, results) => { 
         if (results.length > 0) {res.send({username_error: 'username is already taken'}); return}
 
         finduser = "select * from users where email = ?;"
-        db.query(finduser, email, (err, results) => {
+        database.query(finduser, email, (err, results) => {
             if (results.length > 0) {res.send({email_error: 'email is already being used'}); return}
 
             bcrypt.hash(password, saltRounds, (err, hash) => {
                 const sqlInsert2 = "INSERT INTO users (user_id, username, password, first_name, last_name, email, last_update, created) VALUES ((replace(uuid(),'-','')), ?, ?, ?, ?, ?, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());"
-                try { db.query(sqlInsert2, [username, hash, first_name, last_name, email], (err, response) => { 
+                try { database.query(sqlInsert2, [username, hash, first_name, last_name, email], (err, response) => { 
                     if (err) { res.send({err: err})} 
                     else res.send({message: 'Account Created'}) 
                 })}
@@ -63,12 +54,12 @@ router.post('/profile', (req, res) => {
     }
 
     const {first_name, last_name, email, address, phone} = req.body
-    updates = "UPDATE users SET first_name = ?, last_name = ?, email = ?, address_1 = ?, phone = ?, last_update = CURRENT_TIMESTAMP() WHERE (user_id = ?);"
-    db.query(updates, [first_name, last_name, email, address, phone, user.ssuid], (err, results) => {
+    updates = "UPDATE users SET first_name = ?, last_name = ?, email = ?, address = ?, phone = ?, last_update = CURRENT_TIMESTAMP() WHERE (user_id = ?);"
+    database.query(updates, [first_name, last_name, email, address, phone, user.ssuid], (err, results) => {
         if (err) {res.send({message: 'Technical Error'}); console.log(err); return}
         else {res.send('updated')}
     })
-})
+});
 
 
 module.exports = router
